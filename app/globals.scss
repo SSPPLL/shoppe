@@ -1,0 +1,50 @@
+:root {
+	--c-white: #fff;
+	--c-black: #000;
+	--c-grey-dark: #707070;
+	--c-grey-light: #EFEFEF;
+	--c-grey: #D8D8D8;
+	--c-accent: #A18A68;
+	--fz-heading-1: 33px;
+	--fz-heading-2: 26px;
+	--fz-heading-3: 20px;
+	--fz-heading-4: 20px;
+	--fz-heading-5: 16px;
+	--fz-body-medium: 14px;
+	--fz-body-small: 12px;
+	--lh-heading-1: 43px;
+	--lh-heading-2: 35px;
+	--lh-heading-3: 26px;
+	--lh-heading-4: 26px;
+	--lh-heading-5: 27px;
+	--lh-body-medium: 22px;
+	--lh-body-small: 20px;
+}
+
+body {
+	font-family: var(--font-family);
+	-webkit-font-smoothing: antialiased;
+	-moz-osx-font-smoothing: grayscale;
+	color: var(--c-black);
+
+	background: var(--c-white);
+}
+
+a {
+	color: inherit;
+	text-decoration: none;
+}
+
+.visually-hidden {
+	position: absolute;
+
+	overflow: hidden;
+
+	width: 0;
+	height: 0;
+
+	white-space: nowrap;
+
+	clip: rect(0 0 0 0);
+	clip-path: inset(50%);
+}
