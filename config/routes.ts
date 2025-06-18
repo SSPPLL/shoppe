@@ -10,7 +10,7 @@ export const ROUTES = {
 	},
 	CART: '/cart',
 	FAVORITES: '/favorites',
-	ORDER: (id: string) => `/product/${id}`,
+	ORDER: (id: string) => `/order/${id}`,
 	PRODUCTS: '/products',
 	PRODUCT: (slug: string) => `/product/${slug}`
 }
