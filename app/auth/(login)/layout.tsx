@@ -1,12 +1,12 @@
 import { ReactElement, ReactNode } from 'react';
 
-export default async function LoginLayout({
+export default function LoginLayout({
 	children,
 	heading
 }: Readonly<{
 	children: ReactNode;
 	heading: ReactNode;
-}>): Promise<ReactElement> {
+}>): ReactElement {
 	return (
 		<>
 			{heading}

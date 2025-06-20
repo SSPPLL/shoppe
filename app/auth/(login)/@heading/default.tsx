@@ -1,5 +1,5 @@
 import Link from 'next/link';
-import styles from "./page.module.scss";
+import styles from "./default.module.scss";
 import { ReactElement } from "react";
 import { ROUTES } from '@/config/routes';
 

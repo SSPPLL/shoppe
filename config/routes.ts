@@ -6,7 +6,8 @@ export const ROUTES = {
 		LOGIN: '/auth/login',
 		REGISTER: '/auth/register',
 		RESET_PASSWORD: '/auth/reset-password',
-		FOGOT_PASSWORD: '/auth/forgot-password'
+		FOGOT_PASSWORD: '/auth/forgot-password',
+		LOGOUT: '/auth/logout'
 	},
 	CART: '/cart',
 	FAVORITES: '/favorites',

@@ -3,7 +3,7 @@ import "@/app/globals.scss";
 import styles from "./layout.module.scss";
 import { DM_Sans } from "next/font/google";
 import { ReactElement, ReactNode } from 'react';
-import { YandexMetrika } from '@/components/layout';
+import { Header, YandexMetrika } from '@/components/layout';
 import { Metadata } from 'next';
 import { combineWithDefaultMetadata } from '@/config/metadata';
 
@@ -28,6 +28,7 @@ export default async function RootLayout({
 			</head>
 			<body className={`${DMSans.variable}`}>
 				<div className={styles.wrapper}>
+					<Header />
 					{children}
 				</div>
 				<YandexMetrika counterId={12345678} />
