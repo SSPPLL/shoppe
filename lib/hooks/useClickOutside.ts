@@ -3,7 +3,7 @@ import { RefObject, useEffect } from 'react';
 export const useClickOutside = (
 	ref: RefObject<HTMLElement>,
 	callback: () => void,
-	enabled: boolean = true // 👈 флаг активности
+	enabled: boolean = true
 ) => {
 	useEffect(() => {
 		if (!enabled) return;
