@@ -3,11 +3,8 @@
 .wrapper {
   width: 100%;
   max-width: 1280px;
+  height: 10000px;
   min-height: 100vh;
   margin: 0 auto;
   padding: 0 15px;
-
-  @include mixins.mq(lg) {
-    padding-top: var(--header-height);
-  }
 }

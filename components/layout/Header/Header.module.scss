@@ -5,13 +5,15 @@
   z-index: 1;
 
   display: flex;
+  flex-wrap: wrap;
   align-items: center;
   justify-content: space-between;
 
   background: var(--c-white);
 
-  @include mixins.mq($min: lg) {
-    padding-top: 32px;
+  @include mixins.mq($min: md) {
+    margin: 0 0 15px;
+    padding: 32px 0 0;
 
     &::before {
       @include mixins.pseudo;
@@ -27,33 +29,12 @@
   }
 
   @include mixins.mq(lg) {
-    position: fixed;
-    z-index: 10;
-    top: 0;
-    left: 0;
-
-    display: grid;
-    grid-template-columns: 128px auto;
-    gap: 20px;
-
-    width: 100%;
-    padding: 20px 15px;
-
-    transition: box-shadow 0.3s ease, transform 0.3s ease;
-
-    &.shadow {
-      box-shadow: 0 4px 4px rgb(0 0 0 / 10%);
-    }
-
-    &.hidden {
-      transform: translateY(-120%);
-    }
+    padding: 20px 0;
   }
 
   @include mixins.mq(md) {
-    grid-template-columns: 91px auto;
     padding-top: 15px;
-    padding-bottom: 64px;
+    padding-bottom: 15px;
   }
 }
 
@@ -64,267 +45,233 @@
 }
 
 .nav {
+  position: relative;
+  z-index: 1;
   display: flex;
   align-items: center;
-
-  @include mixins.mq($min: lg) {
-    position: relative;
-    z-index: 1;
-  }
-
-  &-wrapper {
-    display: flex;
-    align-items: center;
-
-    @include mixins.mq(lg) {
-      position: fixed;
-      z-index: 10;
-      top: var(--header-height);
-      left: 0;
-
-      overflow-y: auto;
-      align-items: start;
-
-      width: 100%;
-      height: calc(100vh - var(--header-height));
-
-      visibility: hidden;
-      opacity: 0;
-      background: var(--c-white);
-
-      &.opening,
-      &.closing {
-        transition: opacity 0.3s ease, visibility 0.3s ease;
-      }
-
-      &.opened,
-      &.opening {
-        visibility: visible;
-        opacity: 1;
-      }
-    }
-  }
-
-  &-outer {
-    display: flex;
-    align-items: center;
-
-    @include mixins.mq(lg) {
-      display: grid;
-      gap: 24px;
-      align-content: start;
-
-      width: 100%;
-      padding: 24px 15px;
-    }
-  }
 
   &-list {
     position: relative;
     z-index: 1;
     display: flex;
 
-    @include mixins.mq($min: lg) {
-      &::before {
-        @include mixins.pseudo;
+    &::before {
+      @include mixins.pseudo;
 
-        z-index: 1;
-        top: 50%;
-        right: 0;
-        transform: translateY(-50%);
+      z-index: 1;
+      top: 50%;
+      right: 0;
+      transform: translateY(-50%);
 
-        width: 1px;
-        height: 17px;
+      width: 1px;
+      height: 17px;
 
-        background: var(--c-grey-dark);
-      }
+      background: var(--c-grey-dark);
     }
 
     @include mixins.mq(lg) {
-      display: grid;
-      gap: 24px;
-      padding-bottom: 30px;
-      border-bottom: 1px solid var(--c-grey);
+      display: none;
     }
   }
 
   &-link {
+    margin-right: 59px;
+    padding: 24px 0 22px;
+    border-bottom: 2px solid transparent;
+
+    font-size: var(--fz-heading-5);
+    line-height: var(--lh-heading-5);
+
     transition: border-color 0.3s ease;
 
-    @include mixins.mq($min: lg) {
-      margin-right: 59px;
-      padding: 24px 0 22px;
-      border-bottom: 2px solid transparent;
+    &.active {
+      border-bottom-color: var(--c-black);
+    }
+  }
+}
 
-      font-size: var(--fz-heading-5);
-      line-height: var(--lh-heading-5);
+.search {
+  position: absolute;
+  z-index: 1;
+  top: 0;
+  left: 0;
 
-      &.active {
-        border-bottom-color: var(--c-black);
-      }
+  width: 100%;
 
-      &.hide {
-        display: none;
-      }
+  opacity: 0;
+
+  transition: opacity 0.3s ease;
+
+  &.opened,
+  &.opening {
+    opacity: 1;
+  }
+
+  &-mobile {
+    margin-top: 15px;
+
+    @include mixins.mq($min: md) {
+      display: none;
+    }
+  }
+
+  &-wrapper {
+    position: relative;
+    z-index: 1;
+
+    width: 21px;
+    height: 32px;
+    margin-left: 22px;
+
+    transition: width 0.3s ease;
+
+    &.opened,
+    &.opening {
+      width: 288px;
     }
 
-    @include mixins.mq(lg) {
-      font-size: var(--fz-heading-3);
-      line-height: var(--lh-heading-3);
+    @include mixins.mq(md) {
+      display: none;
+    }
+  }
+
+  &-button {
+    cursor: pointer;
+
+    position: absolute;
+    z-index: 2;
+    top: 50%;
+    right: 0;
+    transform: translateY(-50%);
+
+    padding: 0;
+    border: none;
+
+    appearance: none;
+    background: none;
+
+    @include mixins.size(21px);
+
+    transition: transform 0.3s ease, opacity 0.3s ease;
+
+    &.opened,
+    &.opening {
+      transform: translate(-200px, -50%) scale(0);
+      opacity: 0;
     }
   }
 }
 
 .favorites {
-  @include mixins.mq($min: lg) {
-    margin-left: 180px;
-
-    &.opening,
-    &.closing {
-      transition: margin-left 0.3s ease;
-    }
-
-    &.opened,
-    &.opening {
-      margin-left: 410px;
-    }
-  }
-
   @include mixins.mq(lg) {
-    margin-top: 10px;
+    display: none;
   }
-
-  &-icon {
-    position: relative;
-    z-index: 1;
-    display: inline-block;
-  }
-}
-
-.counter {
-  position: absolute;
-  top: -4px;
-  right: -4px;
 }
 
 .cart {
-  z-index: 1;
-
-  @include mixins.mq($min: lg) {
-    position: absolute;
-    top: 50%;
-    right: 116px;
-    transform: translateY(-50%);
-  }
-
-  @include mixins.mq(lg) {
-    position: relative;
-    margin-left: 16px;
-  }
-}
-
-.search {
-  @include mixins.mq($min: lg) {
-    position: absolute;
-    z-index: 1;
-    top: 50%;
-    right: 176px;
-    transform: translateY(-50%);
-  }
-
-  @include mixins.mq(md) {
-    position: absolute;
-    z-index: 1;
-    bottom: 16px;
-    left: 15px;
-
-    width: calc(100% - 30px);
-  }
+  line-height: 0;
 }
 
 .user {
-  @include mixins.mq($min: lg) {
-    transform: translateY(-1px);
-    margin-left: 36px;
+  transform: translateY(-1px);
+
+  @include mixins.mq(lg) {
+    display: none;
+  }
+}
+
+.logout {
+  transform: translateY(-2px);
+
+  @include mixins.mq(lg) {
+    display: none;
   }
 }
 
 .item {
+  margin-left: 39px;
+}
+
+.burger {
+  margin-left: 39px;
+
   @include mixins.mq($min: lg) {
-    &.hidden {
+    display: none;
+  }
+
+  @include mixins.mq(md) {
+    margin-left: 16px;
+  }
+}
+
+.menu {
+  position: fixed;
+  z-index: 10;
+  top: var(--header-height, 0);
+  left: 0;
+
+  display: flex;
+  flex-direction: column;
+
+  width: 100%;
+  height: calc(100vh - var(--header-height, 0));
+  padding: 0 15px;
+
+  opacity: 0;
+  background: var(--c-white);
+
+  transition: opacity 0.3s ease;
+
+  &.opened,
+  &.opening {
+    opacity: 1;
+  }
+
+  @include mixins.mq($min: md) {
+    padding-top: 20px;
+  }
+
+  &-search {
+    margin-bottom: 39px;
+
+    @include mixins.mq($min: md) {
       display: none;
     }
   }
 
-  @include mixins.mq(lg) {
-    display: grid;
-    grid-template-columns: 21px auto;
-    gap: 10px;
-    align-items: center;
-  }
-}
-
-.label {
-  font-size: var(--fz-heading-3);
-  line-height: var(--lh-heading-3);
-
-  @include mixins.mq($min: lg) {
-    display: none;
-  }
-}
-
-.burger {
-  cursor: pointer;
-
-  display: flex;
-  flex-direction: column;
-  align-items: flex-end;
-
-  width: 20px;
-  margin-left: 16px;
-  padding: 0;
-  border: none;
-
-  appearance: none;
-  background: none;
-
-  @include mixins.mq($min: lg) {
-    display: none;
+  &-outer {
+    overflow-y: auto;
+    height: 100%;
   }
 
-  span {
-    width: 20px;
-    height: 2px;
-    margin-bottom: 5px;
-    border-radius: 2px;
+  &-inner {
+    padding-bottom: 30px;
+  }
 
-    background: var(--c-black);
+  &-list {
+    display: flex;
+    flex-direction: column;
 
-    transition: opacity 0.3s ease, transform 0.3s ease, width 0.3s ease;
+    margin-bottom: 24px;
+    padding-bottom: 30px;
+    border-bottom: 1px solid var(--c-grey);
+  }
+
+  &-link {
+    margin-bottom: 24px;
+    font-size: var(--fz-heading-3);
+    line-height: var(--lh-heading-3);
+    outline-offset: -1px;
 
     &:last-child {
-      width: 13px;
       margin-bottom: 0;
     }
-  }
 
-  @include mixins.mq(lg) {
-    &.opening,
-    &.opened {
-      span {
-        &:first-child {
-          transform: rotate(45deg) translate(5px, 5px);
-        }
-
-        &:nth-child(2) {
-          opacity: 0;
-        }
-
-        &:last-child {
-          transform: rotate(-45deg) translate(5px, -5px);
-          width: 20px;
-        }
-      }
+    &-icon {
+      display: grid;
+      grid-template-columns: 21px auto;
+      gap: 9px;
+      align-items: center;
     }
   }
 }

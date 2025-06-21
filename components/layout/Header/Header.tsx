@@ -1,203 +1,230 @@
 'use client';
-import { FC, useCallback, useEffect, useMemo, useRef, useState } from 'react';
+import { FC, Fragment, RefObject, useCallback, useEffect, useRef, useState } from 'react';
 import { HeaderProps } from './types';
 import cn from 'classnames';
 import Link from 'next/link';
 import Image from 'next/image';
 import { ROUTES } from '@/config/routes';
-import { usePathname } from 'next/navigation';
+import { useSelectedLayoutSegments } from 'next/navigation';
 import { match } from 'path-to-regexp';
-import { Counter } from '../Counter/Counter';
-import HeartIcon from './icons/heart.svg';
-import UserIcon from './icons/user.svg';
-import LogoutIcon from './icons/logout.svg';
-import CartIcon from './icons/cart.svg';
 import { Search } from '../Search/Search';
+import { Burger } from '../Burger/Burger';
 import styles from './Header.module.scss';
-import { TToggleStatus, useToggle } from '@/lib/hooks/useToggle';
-import { useMediaQuery } from '@/lib/hooks/useMediaQuery';
-import { useScrollY } from '@/lib/hooks/useScrollY';
-import { declineWordByNumber } from '@/lib';
+import { LogoutIcon, MagnifierIcon, UserIcon } from '../Icon/Icon';
+import { Cart } from '../Cart/Cart';
+import { Favorites } from '../Favorites/Favorites';
+import { useToggle } from '@/lib/hooks/useToggle';
+import { useClickOutside } from '@/lib/hooks/useClickOutside';
+import { RemoveScroll } from 'react-remove-scroll';
 
 const navLinks = [
-	{ href: ROUTES.HOME, label: 'Главная', hide: true },
+	{ href: ROUTES.HOME, label: 'Главная', mobile: true },
 	{ href: ROUTES.PRODUCTS, label: 'Магазин' },
 	{ href: ROUTES.ABOUT, label: 'О нас' },
 ];
 
-const itemWords: [string, string, string] = ['товар', 'товара', 'товаров'];
-
 export const Header: FC<HeaderProps> = ({ className, ...props }) => {
-	const pathname = usePathname();
-	const [searchStatus, setSearchStatus] = useState<TToggleStatus>('closed');
-	const isMaxLg = useMediaQuery('max', 'lg');
-	const { status, toggle, close, isOpened } = useToggle();
-	const menuItemsTabIndex = useMemo(() => (isMaxLg && isOpened) || !isMaxLg ? 0 : -1, [isMaxLg, isOpened]);
+	const layoutSegments = useSelectedLayoutSegments();
 	const linksRef = useRef<(HTMLAnchorElement | null)[]>([]);
-	const [shadow, setShadow] = useState<boolean>(false);
-	const scrolled = useRef<boolean>(false);
-	const scrollY = useScrollY();
-	const lastScrollY = useRef<number>(0);
-	const [hidden, setHidden] = useState<boolean>(false);
-	const [burgerClicked, setBurgerClicked] = useState<boolean>(false);
+	const [burger, setBurger] = useState<boolean>(false);
+	const [search, setSearch] = useState<boolean>(false);
+	const searchWrapperRef = useRef<HTMLDivElement>(null);
+	const [searchValue, setSearchValue] = useState<string>('');
+	const {
+		status: searchStatus,
+		open: openSearch,
+		close: closeSearch,
+		isOpened: isSearchOpened
+	} = useToggle();
 
-	useEffect(() => {
-		if (!scrollY || !isMaxLg || isOpened) {
-			return;
-		}
+	const {
+		status: burgerStatus,
+		open: openBurger,
+		close: closeBurger,
+		isOpened: isBurgerOpened,
+		isOpening: isBurgerOpening,
+		isInAction: isBurgerInAction
+	} = useToggle();
 
-		if (scrollY > 200) {
-			setShadow(true);
+	const onBurgerClick = useCallback(async () => {
+		if (isBurgerInAction) return;
+
+		if (burger) {
+			await closeBurger();
+			setBurger(!burger);
 		} else {
-			setShadow(false);
+			setBurger(!burger);
+			await openBurger();
 		}
+	}, [burger, closeBurger, isBurgerInAction, openBurger]);
 
-		if (!scrolled.current) {
-			scrolled.current = true;
-			return;
-		}
+	const onSearchClick = useCallback(() => {
+		setSearch(true);
+		openSearch();
+	}, [openSearch]);
 
-		if (scrollY > 200 && lastScrollY.current < scrollY) {
-			setHidden(true);
-		} else {
-			setHidden(false);
-		}
+	useClickOutside(searchWrapperRef as RefObject<HTMLElement>, async () => {
+		await closeSearch();
 
-		lastScrollY.current = scrollY;
-	}, [isMaxLg, scrollY])
+		setSearch(false);
+	}, isSearchOpened)
 
 	useEffect(() => {
-		if (!isMaxLg) {
-			close();
+		if (burger) {
+			window.scrollTo(0, 0);
 		}
-	}, [close, isMaxLg])
-
-	useEffect(() => {
-		if (isOpened) {
-			close();
-		}
-	}, [pathname])
-
-	useEffect(() => {
-		if (isOpened) {
-			linksRef.current[0]?.focus();
-		}
-	}, [isOpened])
-
-	const onBurgerClick = useCallback(() => {
-		toggle();
-
-		setBurgerClicked(true);
-
-	}, [toggle]);
+	}, [burger])
 
 	return (
-		<header {...props} className={cn(styles.header, className, {
-			[styles.shadow]: shadow,
-			[styles.hidden]: hidden
-		})}>
-			<Link
-				className={styles['logo-link']}
-				href={ROUTES.HOME}
-				aria-label='на главную'
-			>
-				<Image
-					className={styles.logo}
-					src={'/logo.svg'}
-					alt='Shoppe - интернет-магазин'
-					width={128}
-					height={26}
-					loading='eager'
-				/>
-			</Link>
-			<nav className={styles.nav} role='navigation'>
-				<div className={cn(styles['nav-wrapper'], styles[status])} >
-					<div className={styles['nav-outer']}>
-						<div className={styles['nav-list']}>
-							{navLinks.map(({ href, label, hide }) => (
+		<>
+			<header {...props} className={cn(styles.header, className)}>
+				<Link
+					className={styles['logo-link']}
+					href={ROUTES.HOME}
+					aria-label='на главную'
+				>
+					<Image
+						className={styles.logo}
+						src={'/logo.svg'}
+						alt='Shoppe - интернет-магазин'
+						width={128}
+						height={26}
+						loading='eager'
+						aria-hidden={true}
+					/>
+				</Link>
+				<nav className={styles.nav} role='navigation'>
+					<div className={styles['nav-list']}>
+						{navLinks.map(({ href, label, mobile }) => {
+
+							if (mobile) {
+								return <Fragment key={href} />
+							}
+
+							return (
 								<Link
 									key={href}
 									className={cn(styles['nav-link'], {
-										[styles.active]: match(pathname)(href),
-										[styles.hide]: hide,
+										[styles.active]: match(href, { decode: decodeURIComponent })('/' + layoutSegments[0]),
 									})}
 									href={href}
-									tabIndex={menuItemsTabIndex}
 									ref={el => {
 										linksRef.current.push(el!)
 									}}
 								>
 									{label}
 								</Link>
-							))}
+							)
+						})}
+					</div>
+					<div className={cn(styles['search-wrapper'], styles[searchStatus])} ref={searchWrapperRef}>
+						{search && <Search
+							isOpened={isSearchOpened}
+							className={cn(styles.search, styles[searchStatus])}
+							value={searchValue}
+							setValue={setSearchValue}
+						/>}
+						<button
+							title='Открыть поиск'
+							aria-label='Открыть поиск'
+							className={cn(styles['search-button'], styles[searchStatus])}
+							type='button'
+							onClick={onSearchClick}
+							tabIndex={search ? -1 : 0}
+						>
+							<MagnifierIcon />
+						</button>
+					</div>
+					<Link
+						title='Корзина'
+						className={cn(styles.cart, styles.item)}
+						href={ROUTES.CART}
+					>
+						<span className='visually-hidden'>Корзина</span>
+						<Cart count={3} />
+					</Link>
+					<Link
+						title='Избранное'
+						className={cn(styles.favorites, styles.item)}
+						href={ROUTES.FAVORITES}
+					>
+						<span className='visually-hidden'>Избранное</span>
+						<Favorites count={3} />
+					</Link>
+					<Link
+						title='Мой аккаунт'
+						className={cn(styles.user, styles.item)}
+						href={ROUTES.AUTH.LOGIN}
+					>
+						<span className='visually-hidden'>Мой аккаунт</span>
+						<UserIcon />
+					</Link>
+					<Link
+						title='Выйти из аккаунта'
+						className={cn(styles.logout, styles.item, styles.hidden)}
+						href={ROUTES.AUTH.LOGOUT}
+					>
+						<span className='visually-hidden'>Выйти из аккаунта</span>
+						<LogoutIcon />
+					</Link>
+					<Burger
+						className={styles.burger}
+						isOpened={isBurgerOpened || isBurgerOpening}
+						onClick={onBurgerClick}
+					/>
+				</nav>
+				<Search
+					className={cn(styles['search-mobile'])}
+					disableTabIndex={isBurgerOpened}
+					setValue={setSearchValue}
+					value={searchValue}
+				/>
+			</header>
+			{burger && <RemoveScroll>
+				<div className={cn(styles.menu, styles[burgerStatus])}>
+					<Search className={cn(styles['menu-search'])} setValue={setSearchValue} value={searchValue} />
+					<div className={styles['menu-outer']}>
+						<div className={styles['menu-inner']}>
+							<div className={styles['menu-list']}>
+								{navLinks.map(({ href, label }) => (
+									<Link
+										key={label}
+										className={styles['menu-link']}
+										href={href}
+									>
+										{label}
+									</Link>
+								))}
+							</div>
+							<Link
+								title='Мой аккаунт'
+								className={cn(styles['menu-link'], styles['menu-link-icon'])}
+								href={ROUTES.AUTH.LOGIN}
+							>
+								<UserIcon />
+								<span>Мой аккаунт</span>
+							</Link>
+							<Link
+								title='Избранное'
+								className={cn(styles['menu-link'], styles['menu-link-icon'])}
+								href={ROUTES.FAVORITES}
+							>
+								<Favorites count={3} />
+								<span>Избранное</span>
+							</Link>
+
+							<Link
+								title='Выйти из аккаунта'
+								className={cn(styles['menu-link'], styles['menu-link-icon'])}
+								href={ROUTES.AUTH.LOGOUT}
+							>
+								<LogoutIcon />
+								<span>Выход <span className='visually-hidden'>из аккаунта</span></span>
+							</Link>
 						</div>
-						<Link
-							title='Избранное'
-							className={cn(styles.favorites, styles.item, styles[searchStatus])}
-							href={ROUTES.FAVORITES}
-							tabIndex={menuItemsTabIndex}
-						>
-							<span className={styles['favorites-icon']}>
-								<HeartIcon />
-								<Counter className={styles.counter} aria-hidden='true'>3</Counter>
-							</span>
-							<span className={styles.label}>
-								Избранное
-								<span className='visually-hidden'>3 {declineWordByNumber(3, itemWords)}</span>
-							</span>
-						</Link>
-						<Link
-							title='Мой аккаунт'
-							className={cn(styles.user, styles.item)}
-							href={ROUTES.AUTH.LOGIN}
-							tabIndex={menuItemsTabIndex}
-						>
-							<UserIcon />
-							<span className={styles.label}>Мой аккаунт</span>
-						</Link>
-						<Link
-							title='Выйти из аккаунта'
-							className={cn(styles.logout, styles.item, styles.hidden)}
-							href={ROUTES.AUTH.LOGOUT}
-							tabIndex={menuItemsTabIndex}
-						>
-							<LogoutIcon />
-							<span className={styles.label}>Выход <span className='visually-hidden'>из аккаунта</span></span>
-						</Link>
 					</div>
 				</div>
-				<Search className={styles.search} setStatus={setSearchStatus} />
-				<Link
-					title='Корзина'
-					className={styles.cart}
-					href={ROUTES.CART}
-				>
-					<span className='visually-hidden'>Корзина, 3 {declineWordByNumber(3, itemWords)}</span>
-					<CartIcon />
-					<Counter
-						className={cn(styles.counter, styles['cart-counter'])}
-						aria-hidden='true'
-					>
-						3
-					</Counter>
-				</Link>
-				{burgerClicked && <span
-					className='visually-hidden'
-					role='log'
-				>
-					{isOpened ? 'меню открыто' : 'меню закрыто'}
-				</span>}
-				<button
-					className={cn(styles.burger, styles[status])}
-					tabIndex={isMaxLg ? 0 : -1}
-					aria-label={isOpened ? 'Закрыть меню' : 'Открыть меню'}
-					onClick={onBurgerClick}
-				>
-					<span></span>
-					<span></span>
-					<span></span>
-				</button>
-			</nav>
-		</header>
+			</RemoveScroll>}
+		</>
 	);
 };

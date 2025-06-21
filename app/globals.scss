@@ -28,7 +28,7 @@
   }
 
   @include mixins.mq(md) {
-    --header-height: 102px;
+    --header-height: 51px;
   }
 }
 
@@ -36,6 +36,7 @@
 *::before,
 *::after {
   box-sizing: border-box;
+  outline-color: var(--c-accent);
 }
 
 body {

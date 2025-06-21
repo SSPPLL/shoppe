@@ -1,0 +1,49 @@
+@use "@/styles/mixins";
+
+.burger {
+  cursor: pointer;
+
+  display: inline-flex;
+  flex-direction: column;
+  align-items: flex-end;
+
+  width: 20px;
+  padding: 0;
+  border: none;
+
+  appearance: none;
+  background: none;
+
+  span {
+    width: 20px;
+    height: 2px;
+    margin-bottom: 5px;
+    border-radius: 2px;
+
+    background: var(--c-black);
+
+    transition: opacity 0.3s ease, transform 0.3s ease, width 0.3s ease;
+
+    &:last-child {
+      width: 13px;
+      margin-bottom: 0;
+    }
+  }
+
+  &.opened {
+    span {
+      &:first-child {
+        transform: rotate(45deg) translate(5px, 5px);
+      }
+
+      &:nth-child(2) {
+        opacity: 0;
+      }
+
+      &:last-child {
+        transform: rotate(-45deg) translate(5px, -5px);
+        width: 20px;
+      }
+    }
+  }
+}

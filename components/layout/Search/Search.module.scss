@@ -3,21 +3,18 @@
 .form {
   position: relative;
   z-index: 1;
+  width: 100%;
   min-width: 21px;
-
-  @include mixins.mq(md) {
-    width: 100%;
-  }
 }
 
-.submit,
-.button {
+.submit {
   cursor: pointer;
 
   position: absolute;
+  z-index: 2;
   top: 50%;
   left: 0;
-  transform: translateY(-50%);
+  transform: translate(5px, -50%);
 
   display: block;
 
@@ -31,44 +28,11 @@
 
   @include mixins.size(21px);
 
-  @include mixins.mq($min: md) {
-    svg {
-      transition: fill 0.3s ease, stroke 0.3s ease, transform 0.3s ease;
-    }
-
-    &.opened,
-    &.opening {
-      transform: translate(5px, -50%);
-
-      svg {
-        transform: scale(0.6);
-        fill: var(--c-grey-dark);
-        stroke: var(--c-grey-dark);
-      }
-    }
+  svg {
+    transform: scale(0.6);
+    fill: var(--c-grey-dark);
+    stroke: var(--c-grey-dark);
   }
-
-  @include mixins.mq(md) {
-    transform: translate(5px, -50%);
-
-    svg {
-      transform: scale(0.6);
-      fill: var(--c-grey-dark);
-      stroke: var(--c-grey-dark);
-    }
-  }
-}
-
-.button {
-  z-index: 3;
-
-  @include mixins.mq(md) {
-    display: none;
-  }
-}
-
-.submit {
-  z-index: 2;
 }
 
 .label {
@@ -78,32 +42,11 @@
   overflow: hidden;
   display: block;
 
+  width: 100%;
   height: 32px;
   border-radius: 4px;
 
   background: var(--c-grey-light);
-
-  @include mixins.mq($min: md) {
-    &.opening,
-    &.closing {
-      transition: width 0.3s ease, opacity 0.3s ease;
-    }
-
-    &.opened,
-    &.opening {
-      width: 288px;
-    }
-
-    &.closed,
-    &.closing {
-      width: 0;
-      opacity: 0;
-    }
-  }
-
-  @include mixins.mq(md) {
-    width: 100%;
-  }
 }
 
 .input {
