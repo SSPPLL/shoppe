@@ -10,8 +10,11 @@ export const ROUTES = {
 		LOGOUT: '/auth/logout'
 	},
 	CART: '/cart',
+	CONTACTS: '/contacts',
+	DELIVERY_AND_RETURN: '/delivery-and-return',
 	FAVORITES: '/favorites',
 	ORDER: (id: string) => `/order/${id}`,
 	PRODUCTS: '/products',
-	PRODUCT: (slug: string) => `/product/${slug}`
+	PRODUCT: (slug: string) => `/product/${slug}`,
+	TERMS_OF_PURCHASE: '/terms-of-purchase'
 }

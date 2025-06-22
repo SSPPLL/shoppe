@@ -66,3 +66,49 @@ a {
   clip: rect(0 0 0 0);
   clip-path: inset(50%);
 }
+
+.input {
+  box-sizing: border-box;
+  width: 100%;
+  padding: 0;
+  padding-bottom: 12px;
+  border: none;
+  border-bottom: 1px solid var(--c-grey);
+  border-radius: 0;
+
+  font-family: var(--font-family);
+  font-size: var(--fz-heading-5);
+  line-height: var(--lh-heading-5);
+  color: var(--c-black);
+
+  appearance: none;
+  background: var(--c-white);
+  outline: none;
+
+  transition: border-color 0.3s ease;
+
+  @include mixins.mq(md) {
+    padding-bottom: 5px;
+    font-size: var(--fz-body-small);
+    line-height: var(--lh-body-small);
+  }
+
+  &::placeholder {
+    color: var(--c-grey-dark);
+  }
+
+  &::-webkit-search-decoration,
+  &::-webkit-search-cancel-button,
+  &::-webkit-search-results-button,
+  &::-webkit-search-results-decoration {
+    display: none;
+  }
+
+  &.error {
+    border-color: var(--c-red);
+  }
+
+  &:focus {
+    border-color: var(--c-black);
+  }
+}
