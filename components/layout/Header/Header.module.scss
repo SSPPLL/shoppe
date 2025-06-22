@@ -98,15 +98,6 @@
 
   width: 100%;
 
-  opacity: 0;
-
-  transition: opacity 0.3s ease;
-
-  &.opened,
-  &.opening {
-    opacity: 1;
-  }
-
   &-mobile {
     margin-top: 15px;
 
@@ -122,13 +113,6 @@
     width: 21px;
     height: 32px;
     margin-left: 22px;
-
-    transition: width 0.3s ease;
-
-    &.opened,
-    &.opening {
-      width: 288px;
-    }
 
     @include mixins.mq(md) {
       display: none;
@@ -154,8 +138,7 @@
 
     transition: transform 0.3s ease, opacity 0.3s ease;
 
-    &.opened,
-    &.opening {
+    &.active {
       transform: translate(-200px, -50%) scale(0);
       opacity: 0;
     }
@@ -217,15 +200,7 @@
   height: calc(100vh - var(--header-height, 0));
   padding: 0 15px;
 
-  opacity: 0;
   background: var(--c-white);
-
-  transition: opacity 0.3s ease;
-
-  &.opened,
-  &.opening {
-    opacity: 1;
-  }
 
   @include mixins.mq($min: md) {
     padding-top: 20px;

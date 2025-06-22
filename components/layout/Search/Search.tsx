@@ -1,19 +1,20 @@
 'use client';
 import styles from './Search.module.scss';
-import { FC, FormEvent, useCallback, useEffect, useRef } from 'react';
+import { FormEvent, useCallback, useEffect, useRef } from 'react';
 import { SearchProps } from './types';
 import cn from 'classnames';
 import { ROUTES } from '@/config/routes';
 import { MagnifierIcon } from '../Icon/Icon';
+import { motion } from 'framer-motion';
 
-export const Search: FC<SearchProps> = ({
+export const Search = motion.create(({
 	disableTabIndex = false,
 	value,
 	setValue,
 	isOpened,
 	className,
 	...props
-}) => {
+}: SearchProps) => {
 	const inputRef = useRef<HTMLInputElement>(null);
 	useEffect(() => {
 		if (isOpened) {
@@ -61,4 +62,4 @@ export const Search: FC<SearchProps> = ({
 			</button>
 		</form>
 	);
-};
+});

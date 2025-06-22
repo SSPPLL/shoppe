@@ -13,15 +13,25 @@ import styles from './Header.module.scss';
 import { LogoutIcon, MagnifierIcon, UserIcon } from '../Icon/Icon';
 import { Cart } from '../Cart/Cart';
 import { Favorites } from '../Favorites/Favorites';
-import { useToggle } from '@/lib/hooks/useToggle';
 import { useClickOutside } from '@/lib/hooks/useClickOutside';
 import { RemoveScroll } from 'react-remove-scroll';
+import { AnimatePresence, motion } from 'framer-motion';
+import { useMediaQuery } from '@/lib/hooks/useMediaQuery';
 
 const navLinks = [
 	{ href: ROUTES.HOME, label: 'Главная', mobile: true },
 	{ href: ROUTES.PRODUCTS, label: 'Магазин' },
 	{ href: ROUTES.ABOUT, label: 'О нас' },
 ];
+
+const toggleVariants = {
+	opened: {
+		opacity: 1,
+	},
+	closed: {
+		opacity: 0,
+	},
+};
 
 export const Header: FC<HeaderProps> = ({ className, ...props }) => {
 	const layoutSegments = useSelectedLayoutSegments();
@@ -30,50 +40,31 @@ export const Header: FC<HeaderProps> = ({ className, ...props }) => {
 	const [search, setSearch] = useState<boolean>(false);
 	const searchWrapperRef = useRef<HTMLDivElement>(null);
 	const [searchValue, setSearchValue] = useState<string>('');
-	const {
-		status: searchStatus,
-		open: openSearch,
-		close: closeSearch,
-		isOpened: isSearchOpened
-	} = useToggle();
-
-	const {
-		status: burgerStatus,
-		open: openBurger,
-		close: closeBurger,
-		isOpened: isBurgerOpened,
-		isOpening: isBurgerOpening,
-		isInAction: isBurgerInAction
-	} = useToggle();
+	const isMaxLg = useMediaQuery('max', 'lg');
 
 	const onBurgerClick = useCallback(async () => {
-		if (isBurgerInAction) return;
-
-		if (burger) {
-			await closeBurger();
-			setBurger(!burger);
-		} else {
-			setBurger(!burger);
-			await openBurger();
-		}
-	}, [burger, closeBurger, isBurgerInAction, openBurger]);
+		setBurger(!burger);
+	}, [burger]);
 
 	const onSearchClick = useCallback(() => {
 		setSearch(true);
-		openSearch();
-	}, [openSearch]);
+	}, []);
 
 	useClickOutside(searchWrapperRef as RefObject<HTMLElement>, async () => {
-		await closeSearch();
-
 		setSearch(false);
-	}, isSearchOpened)
+	}, search)
 
 	useEffect(() => {
 		if (burger) {
 			window.scrollTo(0, 0);
 		}
 	}, [burger])
+
+	useEffect(() => {
+		if (!isMaxLg && burger) {
+			setBurger(false);
+		}
+	}, [burger, isMaxLg])
 
 	return (
 		<>
@@ -117,24 +108,44 @@ export const Header: FC<HeaderProps> = ({ className, ...props }) => {
 							)
 						})}
 					</div>
-					<div className={cn(styles['search-wrapper'], styles[searchStatus])} ref={searchWrapperRef}>
-						{search && <Search
-							isOpened={isSearchOpened}
-							className={cn(styles.search, styles[searchStatus])}
-							value={searchValue}
-							setValue={setSearchValue}
-						/>}
+					<motion.div
+						className={styles['search-wrapper']}
+						ref={searchWrapperRef}
+						initial={'closed'}
+						variants={{
+							opened: {
+								width: 288,
+							},
+							closed: {
+								width: 21
+							},
+						}}
+						animate={search ? 'opened' : 'closed'}
+					>
+						<AnimatePresence>
+							{search && <Search
+								variants={toggleVariants}
+								initial={'closed'}
+								exit={'closed'}
+								isOpened={search}
+								className={styles.search}
+								value={searchValue}
+								setValue={setSearchValue}
+							/>}
+						</AnimatePresence>
 						<button
 							title='Открыть поиск'
 							aria-label='Открыть поиск'
-							className={cn(styles['search-button'], styles[searchStatus])}
+							className={cn(styles['search-button'], {
+								[styles.active]: search
+							})}
 							type='button'
 							onClick={onSearchClick}
 							tabIndex={search ? -1 : 0}
 						>
 							<MagnifierIcon />
 						</button>
-					</div>
+					</motion.div>
 					<Link
 						title='Корзина'
 						className={cn(styles.cart, styles.item)}
@@ -169,62 +180,70 @@ export const Header: FC<HeaderProps> = ({ className, ...props }) => {
 					</Link>
 					<Burger
 						className={styles.burger}
-						isOpened={isBurgerOpened || isBurgerOpening}
+						isOpened={burger}
 						onClick={onBurgerClick}
 					/>
 				</nav>
 				<Search
 					className={cn(styles['search-mobile'])}
-					disableTabIndex={isBurgerOpened}
+					disableTabIndex={burger}
 					setValue={setSearchValue}
 					value={searchValue}
 				/>
 			</header>
-			{burger && <RemoveScroll>
-				<div className={cn(styles.menu, styles[burgerStatus])}>
-					<Search className={cn(styles['menu-search'])} setValue={setSearchValue} value={searchValue} />
-					<div className={styles['menu-outer']}>
-						<div className={styles['menu-inner']}>
-							<div className={styles['menu-list']}>
-								{navLinks.map(({ href, label }) => (
-									<Link
-										key={label}
-										className={styles['menu-link']}
-										href={href}
-									>
-										{label}
-									</Link>
-								))}
-							</div>
-							<Link
-								title='Мой аккаунт'
-								className={cn(styles['menu-link'], styles['menu-link-icon'])}
-								href={ROUTES.AUTH.LOGIN}
-							>
-								<UserIcon />
-								<span>Мой аккаунт</span>
-							</Link>
-							<Link
-								title='Избранное'
-								className={cn(styles['menu-link'], styles['menu-link-icon'])}
-								href={ROUTES.FAVORITES}
-							>
-								<Favorites count={3} />
-								<span>Избранное</span>
-							</Link>
+			<AnimatePresence mode="wait">
+				{burger && <RemoveScroll>
+					<motion.div
+						className={styles.menu}
+						variants={toggleVariants}
+						initial={'closed'}
+						animate={'opened'}
+						exit={'closed'}
+					>
+						<Search className={cn(styles['menu-search'])} setValue={setSearchValue} value={searchValue} />
+						<div className={styles['menu-outer']}>
+							<div className={styles['menu-inner']}>
+								<div className={styles['menu-list']}>
+									{navLinks.map(({ href, label }) => (
+										<Link
+											key={label}
+											className={styles['menu-link']}
+											href={href}
+										>
+											{label}
+										</Link>
+									))}
+								</div>
+								<Link
+									title='Мой аккаунт'
+									className={cn(styles['menu-link'], styles['menu-link-icon'])}
+									href={ROUTES.AUTH.LOGIN}
+								>
+									<UserIcon />
+									<span>Мой аккаунт</span>
+								</Link>
+								<Link
+									title='Избранное'
+									className={cn(styles['menu-link'], styles['menu-link-icon'])}
+									href={ROUTES.FAVORITES}
+								>
+									<Favorites count={3} />
+									<span>Избранное</span>
+								</Link>
 
-							<Link
-								title='Выйти из аккаунта'
-								className={cn(styles['menu-link'], styles['menu-link-icon'])}
-								href={ROUTES.AUTH.LOGOUT}
-							>
-								<LogoutIcon />
-								<span>Выход <span className='visually-hidden'>из аккаунта</span></span>
-							</Link>
+								<Link
+									title='Выйти из аккаунта'
+									className={cn(styles['menu-link'], styles['menu-link-icon'])}
+									href={ROUTES.AUTH.LOGOUT}
+								>
+									<LogoutIcon />
+									<span>Выход <span className='visually-hidden'>из аккаунта</span></span>
+								</Link>
+							</div>
 						</div>
-					</div>
-				</div>
-			</RemoveScroll>}
+					</motion.div>
+				</RemoveScroll>}
+			</AnimatePresence>
 		</>
 	);
 };
