@@ -1,6 +1,9 @@
 @use "@/styles/mixins";
 
 .toasts {
+  pointer-events: none;
+  user-select: none;
+
   position: fixed;
   z-index: 20;
   bottom: 0;
