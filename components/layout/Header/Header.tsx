@@ -1,5 +1,5 @@
 'use client';
-import { FC, Fragment, RefObject, useCallback, useEffect, useRef, useState } from 'react';
+import { FC, Fragment, RefObject, useCallback, useRef, useState } from 'react';
 import { HeaderProps } from './types';
 import cn from 'classnames';
 import Link from 'next/link';
@@ -54,17 +54,13 @@ export const Header: FC<HeaderProps> = ({ className, ...props }) => {
 		setSearch(false);
 	}, search)
 
-	useEffect(() => {
-		if (burger) {
-			window.scrollTo(0, 0);
-		}
-	}, [burger])
+	if (!isMaxLg && burger) {
+		setBurger(false);
+	}
 
-	useEffect(() => {
-		if (!isMaxLg && burger) {
-			setBurger(false);
-		}
-	}, [burger, isMaxLg])
+	if (burger) {
+		window.scrollTo(0, 0);
+	}
 
 	return (
 		<>

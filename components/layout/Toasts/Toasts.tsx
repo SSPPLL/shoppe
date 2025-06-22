@@ -12,6 +12,11 @@ const AlertMotion = motion.create(Alert);
 
 export const Toasts: FC<ToastsProps> = ({ className, ...props }) => {
 	const toasts = useToasts();
+	const onClick = useCallback((id: number) => {
+		clearTimeout(timeoutMap.get(id));
+		removeToast(id);
+		timeoutMap.delete(id);
+	}, [])
 
 	useEffect(() => {
 		return () => {
@@ -22,22 +27,16 @@ export const Toasts: FC<ToastsProps> = ({ className, ...props }) => {
 		}
 	}, []);
 
-	useEffect(() => {
-		if (!toasts.length) return;
+	if (!toasts.length) return null;
 
-		const last = toasts[toasts.length - 1];
+	const last = toasts[toasts.length - 1];
 
+	if (!timeoutMap.has(last.id)) {
 		timeoutMap.set(last.id, setTimeout(() => {
 			timeoutMap.delete(last.id);
 			removeToast(last.id);
 		}, last.delay));
-	}, [toasts]);
-
-	const onClick = useCallback((id: number) => {
-		clearTimeout(timeoutMap.get(id));
-		removeToast(id);
-		timeoutMap.delete(id);
-	}, [])
+	}
 
 	return (
 		<div className={cn(styles.toasts, className)} {...props}>
