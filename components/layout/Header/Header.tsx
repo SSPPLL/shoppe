@@ -191,7 +191,7 @@ export const Header: FC<HeaderProps> = ({ className, ...props }) => {
 					value={searchValue}
 				/>
 			</header>
-			<AnimatePresence mode="wait">
+			<AnimatePresence>
 				{burger && <RemoveScroll>
 					<motion.div
 						className={styles.menu}

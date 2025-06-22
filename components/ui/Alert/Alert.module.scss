@@ -1,0 +1,23 @@
+.alert {
+  cursor: pointer;
+  user-select: none;
+
+  display: grid;
+  grid-template-columns: 20px auto;
+  gap: 20px;
+  align-items: center;
+
+  padding: 20px;
+
+  background: var(--c-grey-light);
+
+  span {
+    font-size: var(--fz-heading-5);
+    line-height: var(--lh-heading-5);
+    color: var(--c-grey-dark);
+  }
+}
+
+.shadow {
+  box-shadow: 0 0 8px rgb(0 0 0 / 15%);
+}
