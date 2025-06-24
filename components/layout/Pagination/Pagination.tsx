@@ -65,7 +65,7 @@ const usePaginationTemplate = (totalPages: number, pagesToShow: number): IPagina
 		if (currentPage > 1) {
 			template.add({
 				prev: true,
-				href: getLink(currentPage - 1),
+				href: getLink(Math.min(currentPage - 1, totalPages)),
 			})
 		}
 
@@ -84,7 +84,7 @@ const usePaginationTemplate = (totalPages: number, pagesToShow: number): IPagina
 		if (currentPage < totalPages) {
 			template.add({
 				next: true,
-				href: getLink(currentPage + 1),
+				href: getLink(Math.min(currentPage + 1, totalPages)),
 			})
 		}
 
@@ -107,8 +107,7 @@ export const Pagination: FC<PaginationProps> = ({ className, totalPages, pagesTo
 								key={index}
 								href={href}
 								className={cn(styles.item, {
-									[styles.prev]: prev,
-									[styles.next]: next
+									[styles.prev]: prev
 								})}
 							>
 								<ArrowIcon className={styles.arrow} />
