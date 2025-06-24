@@ -44,6 +44,23 @@
   }
 }
 
+.indicator {
+  pointer-events: none;
+
+  position: absolute;
+  z-index: 1;
+  right: 0;
+  bottom: 0;
+
+  height: 2px;
+
+  background: var(--c-black);
+
+  @include mixins.mq(lg) {
+    display: none;
+  }
+}
+
 .nav {
   position: relative;
   z-index: 1;
@@ -76,17 +93,9 @@
 
   &-link {
     margin-right: 59px;
-    padding: 24px 0 22px;
-    border-bottom: 2px solid transparent;
-
+    padding: 24px 0;
     font-size: var(--fz-heading-5);
     line-height: var(--lh-heading-5);
-
-    transition: border-color 0.3s ease;
-
-    &.active {
-      border-bottom-color: var(--c-black);
-    }
   }
 }
 
@@ -141,6 +150,10 @@
     &.active {
       transform: translate(-200px, -50%) scale(0);
       opacity: 0;
+    }
+
+    &.no-motion {
+      transition: none;
     }
   }
 }

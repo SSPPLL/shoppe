@@ -12,6 +12,7 @@ import LinkedinIcon from './icons/linkedin.svg';
 import TwitterIcon from './icons/twitter.svg';
 import { Input } from '@/components/ui';
 import { addToast } from '@/store/toasts';
+import { usePathname } from 'next/navigation';
 
 const navLinks = [
 	{ href: ROUTES.CONTACTS, label: 'Контакты' },
@@ -27,6 +28,7 @@ const socials = [
 ]
 
 export const Footer: FC<FooterProps> = ({ className, ...props }) => {
+	const pathname = usePathname();
 	const inputRef = useRef<HTMLInputElement>(null);
 	const onSubmit = useCallback((event: FormEvent<HTMLFormElement>) => {
 		event.preventDefault();
@@ -50,6 +52,7 @@ export const Footer: FC<FooterProps> = ({ className, ...props }) => {
 						name='email'
 						autoComplete='email'
 						ref={inputRef}
+						required
 					/>
 					<button className={styles.button} type='submit' aria-label='Отправить'>
 						<ArrowIcon className={styles.icon} />
@@ -57,7 +60,9 @@ export const Footer: FC<FooterProps> = ({ className, ...props }) => {
 				</form>
 				<nav className={styles.nav}>
 					{navLinks.map(({ href, label }) => (
-						<Link key={href} href={href} className={styles.link}>{label}</Link>
+						<Link key={href} href={href} className={cn(styles.link, {
+							[styles.active]: pathname === href
+						})}>{label}</Link>
 					))}
 				</nav>
 			</div>

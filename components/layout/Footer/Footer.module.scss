@@ -117,6 +117,10 @@
 
   transition: color 0.3s ease;
 
+  &.active {
+    color: var(--c-black);
+  }
+
   @include mixins.hover {
     color: var(--c-black);
   }
