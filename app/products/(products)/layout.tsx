@@ -2,6 +2,7 @@ import styles from "./layout.module.scss";
 import { ReactElement, ReactNode } from 'react';
 import { Metadata } from 'next';
 import { combineWithDefaultMetadata } from '@/config/metadata';
+import { Pagination } from '@/components/layout';
 
 export const metadata: Metadata = combineWithDefaultMetadata({
 	title: "Каталог"
@@ -20,7 +21,10 @@ export default async function ProductsLayout({
 		<div className={styles.wrapper}>
 			{heading}
 			<div className={styles.sidebar}>{sidebar}</div>
-			<main className={styles.content}>{children}</main>
+			<main className={styles.content}>
+				{children}
+				<Pagination className={styles.pagination} totalPages={24} />
+			</main>
 		</div>
 	);
 }

@@ -83,10 +83,12 @@
 }
 
 .input {
-  padding-right: 30px;
-  border-color: var(--c-black);
+  --input-padding: 0 30px 12px 0;
+  --input-border-color: var(--c-black);
 
   @include mixins.mq(md) {
+    --input-padding: 0 25px 5px 0;
+
     font-size: var(--fz-body-medium);
     line-height: var(--lh-body-medium);
   }

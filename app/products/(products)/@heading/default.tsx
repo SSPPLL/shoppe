@@ -1,4 +1,4 @@
-import styles from "./page.module.scss";
+import styles from "./default.module.scss";
 import { ReactElement } from "react";
 
 export default function ProductsHeading(): ReactElement {

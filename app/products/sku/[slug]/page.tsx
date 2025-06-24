@@ -6,15 +6,15 @@ import { ProductPageParams } from './types';
 export default async function ProductPage({ params }: {
 	params: Promise<ProductPageParams>
 }): Promise<ReactElement> {
-	const { slug } = await params;
+	const { sku } = await params;
 
-	if (!slug) {
+	if (!sku) {
 		notFound();
 	}
 
 	return (
 		<div className={styles.wrapper}>
-			<h1 className={styles.title}>Товар {slug}</h1>
+			<h1 className={styles.title}>Товар {sku}</h1>
 		</div>
 	);
 }

@@ -1,3 +1,3 @@
 export interface ProductPageParams {
-	slug: string
+	sku: string
 }

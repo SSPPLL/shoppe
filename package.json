@@ -12,6 +12,7 @@
 		"stylelint": "stylelint \"**/*.(css|scss)\" --fix"
 	},
 	"dependencies": {
+		"@splidejs/react-splide": "^0.7.12",
 		"classnames": "^2.5.1",
 		"date-fns": "^4.1.0",
 		"html-react-parser": "^5.2.5",

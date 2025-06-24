@@ -70,10 +70,9 @@ a {
 .input {
   box-sizing: border-box;
   width: 100%;
-  padding: 0;
-  padding-bottom: 12px;
+  padding: var(--input-padding, 0 0 12px);
   border: none;
-  border-bottom: 1px solid var(--c-grey);
+  border-bottom: 1px solid var(--input-border-color, var(--c-grey));
   border-radius: 0;
 
   font-family: var(--font-family);
@@ -88,7 +87,7 @@ a {
   transition: border-color 0.3s ease;
 
   @include mixins.mq(md) {
-    padding-bottom: 5px;
+    padding: var(--input-padding, 0 0 5px);
     font-size: var(--fz-body-small);
     line-height: var(--lh-body-small);
   }
