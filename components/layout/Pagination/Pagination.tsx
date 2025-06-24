@@ -94,6 +94,9 @@ const usePaginationTemplate = (totalPages: number, pagesToShow: number): IPagina
 
 export const Pagination: FC<PaginationProps> = ({ className, totalPages, pagesToShow = 3, ...props }) => {
 	const paginationTemplate = usePaginationTemplate(totalPages, pagesToShow);
+
+	if (!paginationTemplate.length) return null;
+
 	return (
 		<nav className={cn(styles.pagination, className)} {...props} role='navigation'>
 			{paginationTemplate.map(({ href, page, prev, next, active }, index) => {

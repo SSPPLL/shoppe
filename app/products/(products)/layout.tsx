@@ -1,8 +1,8 @@
+import { Pagination } from '@/components/layout';
 import styles from "./layout.module.scss";
 import { ReactElement, ReactNode } from 'react';
 import { Metadata } from 'next';
 import { combineWithDefaultMetadata } from '@/config/metadata';
-import { Pagination } from '@/components/layout';
 
 export const metadata: Metadata = combineWithDefaultMetadata({
 	title: "Каталог"
