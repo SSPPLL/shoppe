@@ -1,0 +1,114 @@
+@use "@/styles/mixins";
+
+:root {
+  --c-white: #fff;
+  --c-black: #000;
+  --c-grey-dark: #707070;
+  --c-grey-light: #efefef;
+  --c-grey: #d8d8d8;
+  --c-accent: #a18a68;
+  --fz-heading-1: 33px;
+  --fz-heading-2: 26px;
+  --fz-heading-3: 20px;
+  --fz-heading-4: 20px;
+  --fz-heading-5: 16px;
+  --fz-body-medium: 14px;
+  --fz-body-small: 12px;
+  --lh-heading-1: 43px;
+  --lh-heading-2: 35px;
+  --lh-heading-3: 26px;
+  --lh-heading-4: 26px;
+  --lh-heading-5: 27px;
+  --lh-body-medium: 22px;
+  --lh-body-small: 20px;
+  --header-height: 107px;
+
+  @include mixins.mq(lg) {
+    --header-height: 72px;
+  }
+
+  @include mixins.mq(md) {
+    --header-height: 51px;
+  }
+}
+
+*,
+*::before,
+*::after {
+  box-sizing: border-box;
+  outline-color: var(--c-accent);
+}
+
+body {
+  font-family: var(--font-family);
+  -webkit-font-smoothing: antialiased;
+  -moz-osx-font-smoothing: grayscale;
+  color: var(--c-black);
+
+  background: var(--c-white);
+}
+
+a {
+  color: inherit;
+  text-decoration: none;
+}
+
+.visually-hidden {
+  position: absolute;
+
+  overflow: hidden;
+
+  width: 0;
+  height: 0;
+
+  white-space: nowrap;
+
+  clip: rect(0 0 0 0);
+  clip-path: inset(50%);
+}
+
+.input {
+  box-sizing: border-box;
+  width: 100%;
+  padding: 0;
+  padding-bottom: 12px;
+  border: none;
+  border-bottom: 1px solid var(--c-grey);
+  border-radius: 0;
+
+  font-family: var(--font-family);
+  font-size: var(--fz-heading-5);
+  line-height: var(--lh-heading-5);
+  color: var(--c-black);
+
+  appearance: none;
+  background: var(--c-white);
+  outline: none;
+
+  transition: border-color 0.3s ease;
+
+  @include mixins.mq(md) {
+    padding-bottom: 5px;
+    font-size: var(--fz-body-small);
+    line-height: var(--lh-body-small);
+  }
+
+  &::placeholder {
+    color: var(--c-grey-dark);
+  }
+
+  &::-webkit-search-decoration,
+  &::-webkit-search-cancel-button,
+  &::-webkit-search-results-button,
+  &::-webkit-search-results-decoration {
+    display: none;
+  }
+
+  &.error {
+    border-color: var(--c-red);
+  }
+
+  &:focus {
+    border-color: var(--c-black);
+  }
+}

@@ -1,0 +1,19 @@
+@use "@/styles/mixins";
+
+.toasts {
+  pointer-events: none;
+  user-select: none;
+
+  position: fixed;
+  z-index: 20;
+  bottom: 0;
+  left: 50%;
+  transform: translateX(-50%);
+
+  display: grid;
+  gap: 20px;
+
+  width: 100%;
+  max-width: 455px;
+  padding: 0 20px;
+}
