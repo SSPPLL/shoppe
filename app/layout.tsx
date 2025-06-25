@@ -6,6 +6,7 @@ import { ReactElement, ReactNode } from 'react';
 import { Footer, Header, Toasts, YandexMetrika } from '@/components/layout';
 import { Metadata } from 'next';
 import { combineWithDefaultMetadata } from '@/config/metadata';
+import { NuqsAdapter } from 'nuqs/adapters/next';
 
 const DMSans = DM_Sans({
 	variable: "--font-family",
@@ -27,10 +28,12 @@ export default async function RootLayout({
 			</head>
 			<body className={`${DMSans.variable}`}>
 				<div className={styles.wrapper}>
-					<Header />
-					{children}
-					<Toasts />
-					<Footer />
+					<NuqsAdapter>
+						<Header />
+						{children}
+						<Toasts />
+						<Footer />
+					</NuqsAdapter>
 				</div>
 				<YandexMetrika counterId={12345678} />
 			</body>

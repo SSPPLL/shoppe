@@ -4,7 +4,7 @@ import { FormEvent, useCallback, useEffect, useRef } from 'react';
 import { SearchProps } from './types';
 import cn from 'classnames';
 import { ROUTES } from '@/config/routes';
-import { MagnifierIcon } from '../Icon/Icon';
+import { MagnifierIcon } from '../../icon';
 import { motion } from 'framer-motion';
 
 export const Search = motion.create(({
@@ -44,7 +44,7 @@ export const Search = motion.create(({
 					className={styles.input}
 					type='search'
 					placeholder='Поиск'
-					name='q'
+					name='search'
 					required
 					ref={inputRef}
 					tabIndex={disableTabIndex ? -1 : 0}

@@ -2,7 +2,7 @@
 import { BREAKPOINTS } from '@/config/breakpoints';
 import { useState, useEffect } from 'react';
 
-export const useMediaQuery = (type: 'min' | 'max', breakpoint: keyof typeof BREAKPOINTS) => {
+export const useBreakpoint = (type: 'min' | 'max', breakpoint: keyof typeof BREAKPOINTS) => {
 	const query = `(${type}-width: ${BREAKPOINTS[breakpoint] + (type === 'min' ? 1 : 0)}px)`;
 	const [matches, setMatches] = useState(false);
 

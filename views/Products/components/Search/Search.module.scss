@@ -1,0 +1,25 @@
+@use "@/styles/mixins";
+
+.search {
+  position: relative;
+  z-index: 1;
+}
+
+.input {
+  --input-font-size: var(--fz-body-medium);
+  --input-line-height: var(--lh-body-medium);
+  --input-padding: 0 25px 12px 0;
+}
+
+.button {
+  position: absolute;
+  z-index: 2;
+  top: 0;
+  right: 0;
+
+  padding: 0;
+  border: none;
+
+  appearance: none;
+  background: none;
+}

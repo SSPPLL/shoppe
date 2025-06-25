@@ -1,5 +1,26 @@
 @use "@/styles/mixins";
 
+.wrapper {
+  display: grid;
+  grid-template-columns: [start] 260px [asideend] auto [end];
+  gap: 40px 35px;
+
+  padding-top: 80px;
+  padding-bottom: 160px;
+}
+
+.title {
+  grid-column: start / end;
+}
+
+.aside {
+  grid-column: start / asideend;
+}
+
+.content {
+  grid-column: asideend / end;
+}
+
 .pagination {
   margin-top: 60px;
 

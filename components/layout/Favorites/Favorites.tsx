@@ -3,7 +3,7 @@ import { FC } from 'react';
 import { FavoritesProps } from './types';
 import cn from 'classnames';
 import { Counter } from '../Counter/Counter';
-import { HeartIcon } from '../Icon/Icon';
+import { HeartIcon } from '../../icon';
 import { declineWordByNumber } from '@/lib/utils/declineWordByNumber';
 
 export const Favorites: FC<FavoritesProps> = ({ className, count, ...props }) => {
