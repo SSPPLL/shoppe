@@ -11,7 +11,7 @@ import { useCurrentPage } from '@/lib/hooks/useCurrentPage';
 const usePaginationInfo = (totalPages: number, pagesToShow = 3, borderOffset = 0): IPaginationInfo => {
 	const currentPage = useCurrentPage();
 	const minMaxPage = useMemo<number>(() => Math.min(totalPages, Math.max(1, currentPage)), [currentPage, totalPages]);
-	const { startPage, endPage } = useMemo(() => {
+	const { startPage, endPage } = useMemo<{ startPage: number, endPage: number }>(() => {
 		const half = Math.floor(pagesToShow / 2);
 		const startPage = minMaxPage - half;
 		const endPage = minMaxPage + half - (pagesToShow % 2 === 0 ? 1 : 0);

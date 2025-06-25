@@ -1,6 +1,6 @@
 'use client';
 import cn from 'classnames';
-import { FC, KeyboardEvent, ChangeEvent, useCallback, useState } from 'react';
+import { FC, KeyboardEvent, ChangeEvent, FormEvent, useCallback, useState } from 'react';
 import { SearchProps } from './types';
 import styles from './Search.module.scss';
 import { Input } from '@/components/ui';
@@ -11,7 +11,7 @@ let isInputChanged = false;
 
 export const Search: FC<SearchProps> = ({ className, ...props }) => {
 	const [searchValue, setSearchValue] = useQueryState('search');
-	const [inputValue, setInputValue] = useState(searchValue || '');
+	const [inputValue, setInputValue] = useState<string>(searchValue || '');
 	const setValueToQuery = useCallback(() => {
 		if (!isInputChanged) {
 			return;
@@ -27,15 +27,20 @@ export const Search: FC<SearchProps> = ({ className, ...props }) => {
 		}
 	}, [setValueToQuery]);
 
-	const onBlurOrButtonClick = useCallback(() => setValueToQuery(), [setValueToQuery]);
+	const onBlur = useCallback(() => setValueToQuery(), [setValueToQuery]);
 
 	const onChange = useCallback((event: ChangeEvent<HTMLInputElement>) => {
 		isInputChanged = true;
 		setInputValue(event.target.value);
 	}, []);
 
+	const onSubmit = useCallback((event: FormEvent<HTMLFormElement>) => {
+		event.preventDefault();
+		setValueToQuery();
+	}, [setValueToQuery]);
+
 	return (
-		<div className={cn(styles.search, className)} {...props}>
+		<form className={cn(styles.search, className)} {...props} onSubmit={onSubmit} role='search'>
 			<Input
 				className={styles.label}
 				inputClassName={styles.input}
@@ -45,17 +50,16 @@ export const Search: FC<SearchProps> = ({ className, ...props }) => {
 				aria-label='Поиск'
 				value={inputValue}
 				onKeyDown={onKeyDown}
-				onBlur={onBlurOrButtonClick}
+				onBlur={onBlur}
 				onChange={onChange}
 			/>
 			<button
 				className={styles.button}
-				type='button'
-				onClick={onBlurOrButtonClick}
+				type='submit'
 				aria-label='Искать'
 			>
 				<MagnifierIcon className={styles.icon} />
 			</button>
-		</div>
+		</form>
 	);
 };

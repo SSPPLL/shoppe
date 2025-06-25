@@ -1,3 +1,3 @@
-import { DetailedHTMLProps, HTMLAttributes } from 'react';
+import { DetailedHTMLProps, FormHTMLAttributes } from 'react';
 
-export type SearchProps = DetailedHTMLProps<HTMLAttributes<HTMLDivElement>, HTMLDivElement>;
+export type SearchProps = DetailedHTMLProps<FormHTMLAttributes<HTMLFormElement>, HTMLFormElement>;
