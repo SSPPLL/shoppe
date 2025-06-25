@@ -2,28 +2,28 @@
 import cn from 'classnames';
 import { FC, useMemo } from 'react';
 import { IPaginationInfo, IPaginationTemplateItem, PaginationProps } from './types';
-import { useParams, usePathname, useSearchParams } from 'next/navigation';
+import { usePathname, useSearchParams } from 'next/navigation';
 import Link from 'next/link';
 import ArrowIcon from './arrow.svg';
 import styles from './Pagination.module.scss';
+import { useCurrentPage } from '@/lib/hooks/useCurrentPage';
 
-const usePaginationInfo = (totalPages: number, pagesToShow: number): IPaginationInfo => {
-	const { page: pageParam } = useParams();
-	const currentPage = useMemo<number>(() => Number(pageParam || '1'), [pageParam]);
+const usePaginationInfo = (totalPages: number, pagesToShow = 3, borderOffset = 0): IPaginationInfo => {
+	const currentPage = useCurrentPage();
+	const minMaxPage = useMemo<number>(() => Math.min(totalPages, Math.max(1, currentPage)), [currentPage, totalPages]);
 	const { startPage, endPage } = useMemo(() => {
 		const half = Math.floor(pagesToShow / 2);
-		const startPage = currentPage - half;
-		const endPage = currentPage + half - (pagesToShow % 2 === 0 ? 1 : 0);
-		const offset = 0;
+		const startPage = minMaxPage - half;
+		const endPage = minMaxPage + half - (pagesToShow % 2 === 0 ? 1 : 0);
 
-		if (startPage <= (1 + offset)) {
+		if (startPage <= (1 + borderOffset)) {
 			return {
 				startPage: 1,
 				endPage: Math.min(totalPages, pagesToShow)
 			}
 		}
 
-		if (endPage >= totalPages - offset) {
+		if (endPage >= totalPages - borderOffset) {
 			return {
 				startPage: Math.max(1, totalPages - pagesToShow + 1),
 				endPage: totalPages
@@ -31,21 +31,21 @@ const usePaginationInfo = (totalPages: number, pagesToShow: number): IPagination
 		}
 
 		return {
-			startPage: currentPage - half,
+			startPage: minMaxPage - half,
 			endPage: startPage + pagesToShow - 1
 		}
 
-	}, [currentPage, pagesToShow, totalPages]);
+	}, [borderOffset, minMaxPage, pagesToShow, totalPages]);
 
 	return {
-		currentPage,
+		currentPage: minMaxPage,
 		totalPages,
 		startPage,
 		endPage
 	}
 }
 
-const usePaginationTemplate = (totalPages: number, pagesToShow: number): IPaginationTemplateItem[] => {
+const usePaginationTemplate = (totalPages: number, pagesToShow = 3): IPaginationTemplateItem[] => {
 	const pathname = usePathname();
 	const searchParams = useSearchParams();
 	const { currentPage, startPage, endPage } = usePaginationInfo(totalPages, pagesToShow);
@@ -92,7 +92,7 @@ const usePaginationTemplate = (totalPages: number, pagesToShow: number): IPagina
 	}, [currentPage, endPage, pathname, searchParams, startPage, totalPages])
 }
 
-export const Pagination: FC<PaginationProps> = ({ className, totalPages, pagesToShow = 3, ...props }) => {
+export const Pagination: FC<PaginationProps> = ({ className, totalPages, pagesToShow, ...props }) => {
 	const paginationTemplate = usePaginationTemplate(totalPages, pagesToShow);
 
 	if (!paginationTemplate.length) return null;

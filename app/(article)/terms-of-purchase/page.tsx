@@ -1,12 +1,12 @@
 import { combineWithDefaultMetadata } from '@/config/metadata';
+import { TermsOfPurchasePageComponent } from '@/views';
 import { Metadata } from 'next';
 import { ReactElement } from "react";
-import { AccountPageComponent } from '@/views';
 
 export const metadata: Metadata = combineWithDefaultMetadata({
-	title: "Личный кабинет"
+	title: "Условия покупки"
 });
 
-export default function AccountPage(): ReactElement {
-	return <AccountPageComponent />
+export default function TermsOfPurchasePage(): ReactElement {
+	return <TermsOfPurchasePageComponent />
 }

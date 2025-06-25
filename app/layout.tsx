@@ -20,7 +20,6 @@ export default async function RootLayout({
 }: Readonly<{
 	children: ReactNode;
 }>): Promise<ReactElement> {
-
 	return (
 		<html lang="ru">
 			<head>

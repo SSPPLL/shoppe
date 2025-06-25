@@ -4,7 +4,7 @@ import { CartProps } from './types';
 import cn from 'classnames';
 import { Counter } from '../Counter/Counter';
 import { CartIcon } from '../Icon/Icon';
-import { declineWordByNumber } from '@/lib';
+import { declineWordByNumber } from '@/lib/utils/declineWordByNumber';
 
 export const Cart: FC<CartProps> = ({ className, count, ...props }) => {
 	return (
