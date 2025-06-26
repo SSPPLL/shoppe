@@ -1,6 +1,6 @@
+import { FiltersModel } from '@/model/filters';
 import { DetailedHTMLProps, HTMLAttributes } from 'react';
 
-export interface FiltersProps extends DetailedHTMLProps<HTMLAttributes<HTMLDivElement>, HTMLDivElement> {
-	defaultMin: number;
-	defaultMax: number;
-};
+export type FiltersProps = DetailedHTMLProps<
+	HTMLAttributes<HTMLDivElement>, HTMLDivElement
+> & FiltersModel;

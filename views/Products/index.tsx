@@ -4,10 +4,17 @@ import { Filters, Pagination } from './components';
 import styles from './page.module.scss';
 import { isPageNumberValid } from '@/lib/utils/isPageNumberValid';
 import { notFound } from 'next/navigation';
+import { getFilters } from '@/services/filters';
 
 const PAGES_TOTAL_COUNT = 24;
 
-export const ProductsPageComponent: FC<ProductsPageComponentProps> = ({ page }) => {
+export const ProductsPageComponent: FC<ProductsPageComponentProps> = async ({ page }) => {
+	const filters = await getFilters();
+
+	if (!filters) {
+		notFound();
+	}
+
 	if (page && !isPageNumberValid(page, PAGES_TOTAL_COUNT)) {
 		notFound();
 	}
@@ -15,7 +22,7 @@ export const ProductsPageComponent: FC<ProductsPageComponentProps> = ({ page }) 
 	return (
 		<div className={styles.wrapper}>
 			<h1 className={styles.title}>Каталог товаров</h1>
-			<Filters className={styles.filters} defaultMin={0} defaultMax={180} />
+			<Filters className={styles.filters} {...filters} />
 			<main className={styles.content}>
 				<Pagination className={styles.pagination} totalPages={PAGES_TOTAL_COUNT} />
 			</main>

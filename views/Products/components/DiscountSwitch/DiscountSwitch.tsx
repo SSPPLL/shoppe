@@ -8,7 +8,7 @@ import styles from './DiscountSwitch.module.scss';
 import { Switch } from '@/components/ui';
 
 export const DiscountSwitch: FC<DiscountSwitchProps> = ({ className, ...props }) => {
-	const [discountQuery, setDiscountQuery] = useQueryState('discount');
+	const [discountQuery, setDiscountQuery] = useQueryState('discounted');
 	const [discount, setDiscount] = useState<string>(discountQuery ?? 'false');
 
 	const setDiscountDebounced = useMemo(() => {

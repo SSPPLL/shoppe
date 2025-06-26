@@ -1,6 +1,6 @@
 'use client';
 import cn from 'classnames';
-import { FC, useCallback, useEffect, useMemo, useState } from 'react';
+import { FC, useCallback, useMemo, useState } from 'react';
 import { PriceRangeProps } from './types';
 import { useQueryState } from 'nuqs';
 import { Range, getTrackBackground } from "react-range";
@@ -9,8 +9,8 @@ import styles from './PriceRange.module.scss';
 
 export const PriceRange: FC<PriceRangeProps> = ({ className, min, max, ...props }) => {
 	const [firstRender, setFirstRender] = useState(true);
-	const [minQuery, setMinQuery] = useQueryState('min');
-	const [maxQuery, setMaxQuery] = useQueryState('max');
+	const [minQuery, setMinQuery] = useQueryState('minPrice');
+	const [maxQuery, setMaxQuery] = useQueryState('maxPrice');
 	const isMinQuery = minQuery !== null && !Number.isNaN(Number(minQuery));
 	const isMaxQuery = maxQuery !== null && !Number.isNaN(Number(maxQuery));
 	const minValue = isMinQuery ? Math.min(Math.max(Number(minQuery), min), max) : min;
@@ -23,27 +23,22 @@ export const PriceRange: FC<PriceRangeProps> = ({ className, min, max, ...props 
 	const setQueryParams = useCallback((values: number[]) => {
 		setMinQuery(values[0].toString());
 		setMaxQuery(values[1].toString());
+		// eslint-disable-next-line react-hooks/exhaustive-deps
 	}, []);
 
 	const setQueryParamsDebounced = useMemo(() => {
 		return debounce((values: number[]) => setQueryParams(values), 500);
 	}, [setQueryParams]);
 
-	useEffect(() => {
-		if (firstRender) {
-			setFirstRender(false);
-
-			if (minQuery !== null || maxQuery !== null) {
-				setQueryParams(values);
-			}
-
-			return;
-		}
-
-		setQueryParamsDebounced(values);
-	}, [values]);
-
 	const onChange = useCallback((values: number[]) => setValues(values), []);
+
+	if (firstRender) {
+		setFirstRender(false);
+	} else {
+		if (values[0] !== minValue || values[1] !== maxValue) {
+			setQueryParamsDebounced(values);
+		}
+	}
 
 	return (
 		<div className={cn(styles.wrapper, className)} {...props}>

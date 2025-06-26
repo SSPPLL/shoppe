@@ -10,43 +10,34 @@ import { isMinMaxValuesValid } from '@/lib/utils/isMinMaxValuesValid';
 import { DiscountSwitch } from '../DiscountSwitch/DiscountSwitch';
 import { CategorySelect } from '../CategorySelect/CategorySelect';
 
-const OPTIONS = [
-	{
-		label: 'Clothing',
-		value: 'clothing',
-	},
-	{
-		label: 'Shoes',
-		value: 'shoes',
-	},
-	{
-		label: 'Accessories',
-		value: 'accessories',
-	},
-]
-
-export const Filters: FC<FiltersProps> = ({ className, defaultMin, defaultMax, ...props }) => {
+export const Filters: FC<FiltersProps> = ({ className, minPrice, maxPrice, categories, ...props }) => {
 	const searchParams = useSearchParams();
-	const min = searchParams.get('min');
-	const max = searchParams.get('max');
-	const discount = searchParams.get('discount');
+	const min = searchParams.get('minPrice');
+	const max = searchParams.get('maxPrice');
+	const discount = searchParams.get('discounted');
+	const catagory = searchParams.get('categoryId');
 
-	if (!isMinMaxValuesValid({ defaultMin, defaultMax, min, max })) {
+	if (!isMinMaxValuesValid({ defaultMin: minPrice, defaultMax: maxPrice, min, max })) {
 		notFound();
 	}
 
 	if (discount && !['true', 'false'].includes(discount)) {
 		notFound();
 	}
+
+	if (catagory && !categories.map(({ id }) => id.toString()).includes(catagory)) {
+		notFound();
+	}
+
 	return (
 		<div className={cn(styles.filters, className)}>
 			<aside className={styles.aside} {...props}>
 				<Search className={styles.search} />
-				<CategorySelect className={styles.category} options={OPTIONS} />
+				<CategorySelect className={styles.category} options={categories} />
 				<PriceRange
 					className={styles['price-range']}
-					min={defaultMin}
-					max={defaultMax}
+					min={minPrice}
+					max={maxPrice}
 				/>
 				<DiscountSwitch className={styles.discount} />
 			</aside>

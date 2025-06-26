@@ -1,52 +1,30 @@
-import * as Select from "@radix-ui/react-select"
-import { FC, useEffect, useMemo, useState } from "react"
+import { FC, useMemo, useState } from "react"
 import { CategorySelectProps } from './types'
-import ArrowIcon from './arrow.svg'
-import styles from './CategorySelect.module.scss'
-import cn from 'classnames'
 import { useQueryState } from 'nuqs'
-import { debounce } from 'lodash'
+import { throttle } from 'lodash'
+import { Select } from '@/components/ui'
 
 export const CategorySelect: FC<CategorySelectProps> = ({ className, options }) => {
-	const [categoryQuery, setCategoryQuery] = useQueryState('category');
+	const [categoryQuery, setCategoryQuery] = useQueryState('categoryId');
 	const [value, setValue] = useState<string>(categoryQuery || '');
 
-	const setCategoryDebounced = useMemo(() => {
-		return debounce((category: string) => setCategoryQuery(category), 500);
+	const setCategoryThrottled = useMemo(() => {
+		return throttle((category: string) => setCategoryQuery(category), 500);
+		// eslint-disable-next-line react-hooks/exhaustive-deps
 	}, []);
 
-	useEffect(() => {
-		if (!value && !categoryQuery) {
-			return;
-		}
-
-		setCategoryDebounced(value);
-	}, [value]);
+	if (categoryQuery !== value && value.length) {
+		setCategoryThrottled(value);
+	}
 
 	return (
-		<div className={cn(styles.wrapper, className)}>
-			<Select.Root value={value} onValueChange={setValue}>
-				<Select.Trigger className={styles.trigger} aria-label="Фильтровать товары по категориям">
-					<Select.Value placeholder="Категория" />
-					<ArrowIcon className={styles.arrow} />
-				</Select.Trigger>
-
-				<Select.Content
-					className={styles.content}
-				>
-					<Select.Viewport>
-						{options.map((option) => (
-							<Select.Item
-								key={option.value}
-								value={option.value}
-								className={styles.item}
-							>
-								<Select.ItemText>{option.label}</Select.ItemText>
-							</Select.Item>
-						))}
-					</Select.Viewport>
-				</Select.Content>
-			</Select.Root>
-		</div>
+		<Select
+			ariaLabel="Фильтровать товары по категориям"
+			className={className}
+			placeholder="Категория"
+			value={value}
+			setValue={setValue}
+			options={options.map(({ id, name }) => ({ label: name, value: id.toString() }))}
+		/>
 	)
 }
