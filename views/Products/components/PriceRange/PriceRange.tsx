@@ -1,6 +1,6 @@
 'use client';
 import cn from 'classnames';
-import { FC, useCallback, useMemo, useState } from 'react';
+import { FC, useCallback, useEffect, useMemo, useState } from 'react';
 import { PriceRangeProps } from './types';
 import { useQueryState } from 'nuqs';
 import { Range, getTrackBackground } from "react-range";
@@ -32,12 +32,15 @@ export const PriceRange: FC<PriceRangeProps> = ({ className, min, max, ...props 
 
 	const onChange = useCallback((values: number[]) => setValues(values), []);
 
-	if (firstRender) {
-		setFirstRender(false);
-	} else {
-		if (values[0] !== minValue || values[1] !== maxValue) {
-			setQueryParamsDebounced(values);
+	useEffect(() => {
+		if (firstRender) {
+			setFirstRender(false);
 		}
+		// eslint-disable-next-line react-hooks/exhaustive-deps
+	}, [])
+
+	if (!firstRender && (values[0] !== minValue || values[1] !== maxValue)) {
+		setQueryParamsDebounced(values);
 	}
 
 	return (
