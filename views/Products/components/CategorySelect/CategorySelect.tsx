@@ -33,9 +33,6 @@ export const CategorySelect: FC<CategorySelectProps> = ({ className, options }) 
 
 				<Select.Content
 					className={styles.content}
-					onPointerDownOutside={(e) => {
-						e.preventDefault()
-					}}
 				>
 					<Select.Viewport>
 						{options.map((option) => (
