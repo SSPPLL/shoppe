@@ -15,8 +15,12 @@ export const DiscountSwitch: FC<DiscountSwitchProps> = ({ className, ...props })
 	}, []);
 
 	useEffect(() => {
+		if (discount === 'false' && !discountQuery) {
+			return;
+		}
+
 		setDiscountDebounced(discount);
-	}, [discount, setDiscountDebounced]);
+	}, [discount]);
 
 	const onChange = useCallback((event: ChangeEvent<HTMLInputElement>) => {
 		setDiscount(event.target.checked.toString());
