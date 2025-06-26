@@ -7,7 +7,6 @@ import { Range, getTrackBackground } from "react-range";
 import { debounce } from 'lodash';
 import styles from './PriceRange.module.scss';
 
-
 export const PriceRange: FC<PriceRangeProps> = ({ className, min, max, ...props }) => {
 	const [firstRender, setFirstRender] = useState(true);
 	const [minQuery, setMinQuery] = useQueryState('min');
