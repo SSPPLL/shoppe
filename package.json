@@ -12,6 +12,7 @@
 		"stylelint": "stylelint \"**/*.(css|scss)\" --fix"
 	},
 	"dependencies": {
+		"@radix-ui/react-select": "^2.2.5",
 		"@splidejs/react-splide": "^0.7.12",
 		"classnames": "^2.5.1",
 		"date-fns": "^4.1.0",

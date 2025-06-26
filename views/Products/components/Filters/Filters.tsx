@@ -8,6 +8,22 @@ import cn from 'classnames';
 import { notFound, useSearchParams } from 'next/navigation';
 import { isMinMaxValuesValid } from '@/lib/utils/isMinMaxValuesValid';
 import { DiscountSwitch } from '../DiscountSwitch/DiscountSwitch';
+import { CategorySelect } from '../CategorySelect/CategorySelect';
+
+const OPTIONS = [
+	{
+		label: 'Clothing',
+		value: 'clothing',
+	},
+	{
+		label: 'Shoes',
+		value: 'shoes',
+	},
+	{
+		label: 'Accessories',
+		value: 'accessories',
+	},
+]
 
 export const Filters: FC<FiltersProps> = ({ className, defaultMin, defaultMax, ...props }) => {
 	const searchParams = useSearchParams();
@@ -26,6 +42,7 @@ export const Filters: FC<FiltersProps> = ({ className, defaultMin, defaultMax, .
 		<div className={cn(styles.filters, className)}>
 			<aside className={styles.aside} {...props}>
 				<Search className={styles.search} />
+				<CategorySelect className={styles.category} options={OPTIONS} />
 				<PriceRange
 					className={styles['price-range']}
 					min={defaultMin}
