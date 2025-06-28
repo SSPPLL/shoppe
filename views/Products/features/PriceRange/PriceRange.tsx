@@ -7,7 +7,7 @@ import { Range, getTrackBackground } from "react-range";
 import { debounce } from 'lodash';
 import styles from './PriceRange.module.scss';
 
-export const PriceRange: FC<PriceRangeProps> = ({ className, min, max, ...props }) => {
+export const PriceRange: FC<PriceRangeProps> = ({ className, min, max, mainTabIndex = 0, ...props }) => {
 	const [firstRender, setFirstRender] = useState(true);
 	const [minQuery, setMinQuery] = useQueryState('minPrice');
 	const [maxQuery, setMaxQuery] = useQueryState('maxPrice');
@@ -75,6 +75,7 @@ export const PriceRange: FC<PriceRangeProps> = ({ className, min, max, ...props 
 						className={cn(styles.thumb, {
 							[styles.hidden]: firstRender
 						})}
+						tabIndex={mainTabIndex}
 					/>
 				)}
 			/>

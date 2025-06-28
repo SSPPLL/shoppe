@@ -7,18 +7,51 @@
 
   padding-top: 80px;
   padding-bottom: 160px;
+
+  @include mixins.mq(lg) {
+    gap: 30px;
+    padding-top: 20px;
+    padding-bottom: 80px;
+  }
+
+  @include mixins.mq(md) {
+    gap: 16px;
+    padding-top: 10px;
+    padding-bottom: 60px;
+  }
 }
 
 .title {
   grid-column: start / end;
+  font-size: var(--fz-heading-1);
+  font-weight: 500;
+  line-height: var(--lh-heading-1);
+
+  @include mixins.mq(md) {
+    font-size: var(--fz-heading-2);
+    line-height: var(--lh-heading-2);
+  }
+
+  @include mixins.mq(sm) {
+    font-size: var(--fz-heading-3);
+    line-height: var(--lh-heading-3);
+  }
 }
 
-.aside {
+.filters {
   grid-column: start / asideend;
+
+  @include mixins.mq(lg) {
+    grid-column: start / end;
+  }
 }
 
 .content {
   grid-column: asideend / end;
+
+  @include mixins.mq(lg) {
+    grid-column: start / end;
+  }
 }
 
 .pagination {

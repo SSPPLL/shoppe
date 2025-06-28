@@ -1,0 +1,86 @@
+@use "@/styles/mixins";
+
+.price-range {
+  @include mixins.mq($min: lg) {
+    margin-top: 28px;
+  }
+
+  @include mixins.mq(lg, sm) {
+    padding-top: 30px;
+  }
+
+  @include mixins.mq(sm) {
+    margin-top: 28px;
+  }
+}
+
+.category {
+  @include mixins.mq($min: lg) {
+    margin-top: 40px;
+  }
+
+  @include mixins.mq(sm) {
+    margin-top: 30px;
+  }
+}
+
+.discount {
+  @include mixins.mq($min: lg) {
+    margin-top: 40px;
+  }
+
+  @include mixins.mq(sm) {
+    margin-top: 30px;
+  }
+}
+
+.aside {
+  @include mixins.mq(lg) {
+    overflow: hidden;
+    height: 0;
+  }
+}
+
+.content {
+  @include mixins.mq(lg, sm) {
+    display: grid;
+    grid-gap: 20px 40px;
+    grid-template-columns: repeat(2, 1fr);
+  }
+
+  @include mixins.mq(lg) {
+    padding-top: 20px;
+    padding-bottom: 20px;
+  }
+}
+
+.button {
+  cursor: pointer;
+
+  display: inline-flex;
+  align-items: center;
+
+  padding: 0;
+  border: none;
+
+  font-family: var(--font-family);
+  font-size: var(--fz-body-medium);
+  line-height: var(--lh-body-medium);
+  color: var(--c-accent);
+
+  appearance: none;
+  background: none;
+
+  svg {
+    margin-right: 8px;
+  }
+
+  @include mixins.mq($min: lg) {
+    display: none;
+  }
+
+  @include mixins.mq(md) {
+    font-size: var(--fz-body-small);
+    line-height: var(--lh-body-small);
+  }
+}

@@ -9,7 +9,7 @@ import { useQueryState } from 'nuqs';
 
 let isInputChanged = false;
 
-export const Search: FC<SearchProps> = ({ className, ...props }) => {
+export const Search: FC<SearchProps> = ({ className, mainTabIndex = 0, ...props }) => {
 	const [searchValue, setSearchValue] = useQueryState('search');
 	const [inputValue, setInputValue] = useState<string>(searchValue || '');
 	const setValueToQuery = useCallback(() => {
@@ -52,11 +52,13 @@ export const Search: FC<SearchProps> = ({ className, ...props }) => {
 				onKeyDown={onKeyDown}
 				onBlur={onBlur}
 				onChange={onChange}
+				tabIndex={mainTabIndex}
 			/>
 			<button
 				className={styles.button}
 				type='submit'
 				aria-label='Искать'
+				tabIndex={mainTabIndex}
 			>
 				<MagnifierIcon className={styles.icon} />
 			</button>

@@ -8,6 +8,8 @@
 
 .icon {
   display: inline-block;
+
+  @include mixins.size(21px);
 }
 
 .counter {

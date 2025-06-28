@@ -4,7 +4,7 @@ import { useQueryState } from 'nuqs'
 import { throttle } from 'lodash'
 import { Select } from '@/components/ui'
 
-export const CategorySelect: FC<CategorySelectProps> = ({ className, options }) => {
+export const CategorySelect: FC<CategorySelectProps> = ({ className, mainTabIndex = 0, options }) => {
 	const [categoryQuery, setCategoryQuery] = useQueryState('categoryId');
 	const [value, setValue] = useState<string>(categoryQuery || '');
 
@@ -25,6 +25,7 @@ export const CategorySelect: FC<CategorySelectProps> = ({ className, options }) 
 			value={value}
 			setValue={setValue}
 			options={options.map(({ id, name }) => ({ label: name, value: id.toString() }))}
+			mainTabIndex={mainTabIndex}
 		/>
 	)
 }

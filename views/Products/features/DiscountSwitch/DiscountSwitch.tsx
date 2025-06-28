@@ -7,7 +7,7 @@ import { debounce } from 'lodash';
 import styles from './DiscountSwitch.module.scss';
 import { Switch } from '@/components/ui';
 
-export const DiscountSwitch: FC<DiscountSwitchProps> = ({ className, ...props }) => {
+export const DiscountSwitch: FC<DiscountSwitchProps> = ({ className, mainTabIndex = 0, ...props }) => {
 	const [discountQuery, setDiscountQuery] = useQueryState('discounted');
 	const [discount, setDiscount] = useState<string>(discountQuery ?? 'false');
 
@@ -32,6 +32,7 @@ export const DiscountSwitch: FC<DiscountSwitchProps> = ({ className, ...props })
 				name='discount'
 				checked={discount === 'true'}
 				onChange={onChange}
+				tabIndex={mainTabIndex}
 			/>
 		</div>
 	);

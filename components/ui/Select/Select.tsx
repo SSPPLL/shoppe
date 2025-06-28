@@ -11,12 +11,13 @@ export const Select: FC<SelectProps> = ({
 	setValue,
 	options,
 	placeholder,
-	ariaLabel
+	ariaLabel,
+	mainTabIndex = 0
 }): ReactElement => {
 	return (
 		<div className={cn(styles.wrapper, className)}>
 			<Root value={value} onValueChange={setValue}>
-				<Trigger className={styles.trigger} aria-label={ariaLabel}>
+				<Trigger className={styles.trigger} aria-label={ariaLabel} tabIndex={mainTabIndex}>
 					<Value placeholder={placeholder} />
 					<ArrowIcon className={styles.arrow} />
 				</Trigger>

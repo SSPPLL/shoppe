@@ -12,4 +12,5 @@ export interface SelectProps extends DetailedHTMLProps<HTMLAttributes<HTMLDivEle
 	placeholder: string;
 	setValue: (value: string) => void;
 	options: SelectItem[];
+	mainTabIndex?: number;
 }

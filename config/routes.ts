@@ -15,6 +15,6 @@ export const ROUTES = {
 	FAVORITES: '/favorites',
 	ORDER: (id: string) => `/order/${id}`,
 	PRODUCTS: '/products',
-	PRODUCT: (slug: string) => `/product/${slug}`,
+	PRODUCT: (sku: string) => `/products/sku/${sku}`,
 	TERMS_OF_PURCHASE: '/terms-of-purchase'
 }
