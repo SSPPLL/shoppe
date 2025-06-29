@@ -111,7 +111,10 @@ export const ProductsPageComponent: FC<ProductsPageComponentProps> = ({ page, pr
 					className={styles.pagination}
 					totalPages={totalPages}
 				/>}
-				{!isLoading && !isPending && !products && <div className={styles.empty}>Ничего не найдено</div>}
+				{!isLoading && !isPending && (!products || !products.products.length) && <div
+					className={styles.empty}>
+					Ничего не найдено
+				</div>}
 			</main>
 		</div>
 	);
