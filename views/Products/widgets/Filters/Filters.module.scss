@@ -42,6 +42,9 @@
 }
 
 .content {
+  display: flex;
+  flex-direction: column;
+
   @include mixins.mq(lg, sm) {
     display: grid;
     grid-gap: 20px 40px;
@@ -82,5 +85,27 @@
   @include mixins.mq(md) {
     font-size: var(--fz-body-small);
     line-height: var(--lh-body-small);
+  }
+}
+
+.clear {
+  cursor: pointer;
+
+  margin: 20px auto 0;
+  padding: 0;
+  border: none;
+  border-bottom: 1px solid var(--c-grey-dark);
+
+  font-family: var(--font-family);
+  font-size: var(--fz-body-small);
+  line-height: var(--lh-body-small);
+  color: var(--c-grey-dark);
+
+  appearance: none;
+  background: none;
+
+  @include mixins.mq(lg) {
+    grid-column: span 2;
+    margin-top: 10px;
   }
 }

@@ -44,7 +44,7 @@ export const Search = motion.create(({
 					className={styles.input}
 					type='search'
 					placeholder='Поиск'
-					name='search'
+					name='name'
 					required
 					ref={inputRef}
 					tabIndex={disableTabIndex ? -1 : 0}

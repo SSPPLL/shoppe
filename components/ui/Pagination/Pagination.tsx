@@ -1,14 +1,26 @@
 'use client';
 import cn from 'classnames';
-import { FC } from 'react';
+import { FC, memo, useCallback } from 'react';
 import { PaginationProps } from './types';
 import Link from 'next/link';
 import ArrowIcon from './arrow.svg';
 import styles from './Pagination.module.scss';
 import { usePaginationTemplate } from '@/lib/hooks/Pagination/usePaginationTemplate';
 
-export const Pagination: FC<PaginationProps> = ({ className, totalPages, pagesToShow, ...props }) => {
+const PaginationComponent: FC<PaginationProps> = ({
+	className,
+	totalPages,
+	pagesToShow,
+	isLoading,
+	setIsLoading,
+	...props
+}) => {
 	const paginationTemplate = usePaginationTemplate(totalPages, pagesToShow);
+	const onClick = useCallback(() => {
+		if (!isLoading && setIsLoading) {
+			setIsLoading(true);
+		}
+	}, [isLoading, setIsLoading]);
 
 	if (!paginationTemplate.length) return null;
 
@@ -24,6 +36,7 @@ export const Pagination: FC<PaginationProps> = ({ className, totalPages, pagesTo
 								className={cn(styles.item, {
 									[styles.prev]: prev
 								})}
+								onClick={onClick}
 							>
 								<ArrowIcon className={styles.arrow} />
 								{prev && <span className='visually-hidden'>Предыдущая страница</span>}
@@ -38,6 +51,7 @@ export const Pagination: FC<PaginationProps> = ({ className, totalPages, pagesTo
 								key={index}
 								href={href}
 								className={styles.item}
+								onClick={onClick}
 							>
 								<span className='visually-hidden'>Перейти на страницу номер </span>
 								{page}
@@ -64,3 +78,5 @@ export const Pagination: FC<PaginationProps> = ({ className, totalPages, pagesTo
 		</nav>
 	);
 };
+
+export const Pagination = memo(PaginationComponent);

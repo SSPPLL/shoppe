@@ -8,3 +8,11 @@ export interface FiltersModel {
 	maxPrice: number,
 	minPrice: number
 }
+
+export interface FiltersSearchParams {
+	priceMin: number | null,
+	priceMax: number | null,
+	categoryId: number | null,
+	discounted: boolean | null,
+	name: string | null,
+}

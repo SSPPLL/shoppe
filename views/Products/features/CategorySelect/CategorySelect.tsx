@@ -1,29 +1,18 @@
-import { FC, useMemo, useState } from "react"
+import { FC } from "react"
 import { CategorySelectProps } from './types'
-import { useQueryState } from 'nuqs'
-import { throttle } from 'lodash'
 import { Select } from '@/components/ui'
+import { useFilters } from '@/lib/hooks/useFilters'
 
 export const CategorySelect: FC<CategorySelectProps> = ({ className, mainTabIndex = 0, options }) => {
-	const [categoryQuery, setCategoryQuery] = useQueryState('categoryId');
-	const [value, setValue] = useState<string>(categoryQuery || '');
-
-	const setCategoryThrottled = useMemo(() => {
-		return throttle((category: string) => setCategoryQuery(category), 500);
-		// eslint-disable-next-line react-hooks/exhaustive-deps
-	}, []);
-
-	if (categoryQuery !== value && value.length) {
-		setCategoryThrottled(value);
-	}
-
+	const { filterQueries, setFilterQueries } = useFilters();
+	const { categoryId } = filterQueries;
 	return (
 		<Select
 			ariaLabel="Фильтровать товары по категориям"
 			className={className}
 			placeholder="Категория"
-			value={value}
-			setValue={setValue}
+			value={categoryId ? categoryId.toString() : ''}
+			setValue={(value) => setFilterQueries({ categoryId: Number(value) })}
 			options={options.map(({ id, name }) => ({ label: name, value: id.toString() }))}
 			mainTabIndex={mainTabIndex}
 		/>

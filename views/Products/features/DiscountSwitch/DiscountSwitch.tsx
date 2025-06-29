@@ -1,28 +1,18 @@
 'use client';
 import cn from 'classnames';
-import { FC, useMemo, useState, ChangeEvent, useCallback } from 'react';
+import { FC, ChangeEvent, useCallback } from 'react';
 import { DiscountSwitchProps } from './types';
-import { useQueryState } from 'nuqs';
-import { debounce } from 'lodash';
 import styles from './DiscountSwitch.module.scss';
 import { Switch } from '@/components/ui';
+import { useFilters } from '@/lib/hooks/useFilters';
 
 export const DiscountSwitch: FC<DiscountSwitchProps> = ({ className, mainTabIndex = 0, ...props }) => {
-	const [discountQuery, setDiscountQuery] = useQueryState('discounted');
-	const [discount, setDiscount] = useState<string>(discountQuery ?? 'false');
-
-	const setDiscountDebounced = useMemo(() => {
-		return debounce((discount: string) => setDiscountQuery(discount), 500);
-		// eslint-disable-next-line react-hooks/exhaustive-deps
-	}, []);
+	const { filterQueries, setFilterQueries } = useFilters();
+	const { discounted } = filterQueries;
 
 	const onChange = useCallback((event: ChangeEvent<HTMLInputElement>) => {
-		setDiscount(event.target.checked.toString());
-	}, []);
-
-	if ((discountQuery && discountQuery !== discount) || (!discountQuery && discount !== 'false')) {
-		setDiscountDebounced(discount);
-	}
+		setFilterQueries({ discounted: event.target.checked });
+	}, [setFilterQueries]);
 
 	return (
 		<div className={cn(styles.wrapper, className)} {...props}>
@@ -30,7 +20,7 @@ export const DiscountSwitch: FC<DiscountSwitchProps> = ({ className, mainTabInde
 			<Switch
 				aria-label='Фильтровать товары по скидкам'
 				name='discount'
-				checked={discount === 'true'}
+				checked={discounted || false}
 				onChange={onChange}
 				tabIndex={mainTabIndex}
 			/>

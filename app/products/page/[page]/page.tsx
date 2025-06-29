@@ -1,7 +1,10 @@
 import { combineWithDefaultMetadata } from '@/config/metadata';
+import { loadProductsData } from '@/lib/api/loadProductsData';
+import { loadProductsFiltersSearchParams } from '@/lib/loaders/productsFilters';
 import { ProductsPageComponent } from '@/views';
 import { Metadata } from 'next';
 import { notFound } from 'next/navigation';
+import { SearchParams } from 'nuqs';
 import { ReactElement } from "react";
 
 interface PageParams {
@@ -18,14 +21,19 @@ export const generateMetadata = async ({ params }: {
 	});
 }
 
-export default async function ProductsPaginationPage({ params }: {
-	params: Promise<PageParams>
+export default async function ProductsPaginationPage({ params, searchParams }: {
+	params: Promise<PageParams>,
+	searchParams: Promise<SearchParams>
 }): Promise<ReactElement> {
 	const { page } = await params;
+	const [filters, products] = await loadProductsData({
+		page: Number(page),
+		...loadProductsFiltersSearchParams(await searchParams)
+	})
 
 	if (!page) {
 		notFound();
 	}
 
-	return <ProductsPageComponent page={page} />
+	return <ProductsPageComponent page={page} products={products} filters={filters} />
 }

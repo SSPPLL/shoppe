@@ -1,40 +1,21 @@
 'use client';
-import { FC, useMemo, useState } from 'react';
+import FiltersIcon from './filters.svg'
+import { FC, memo, useMemo, useState } from 'react';
 import { FiltersProps } from './types';
 import { CategorySelect, DiscountSwitch, PriceRange, Search } from '../../features';
-import { notFound, useSearchParams } from 'next/navigation';
-import { isMinMaxValuesValid } from '@/lib/utils/isMinMaxValuesValid';
-import FiltersIcon from './filters.svg'
-import styles from './Filters.module.scss';
-import cn from 'classnames';
 import { useBreakpoint } from '@/lib/hooks/useBreakpoint';
 import { motion, useReducedMotion } from 'framer-motion';
+import { useFilters } from '@/lib/hooks/useFilters';
+import styles from './Filters.module.scss';
+import cn from 'classnames';
 
-export const Filters: FC<FiltersProps> = ({ className, minPrice, maxPrice, categories }) => {
-	const searchParams = useSearchParams();
-	const min = searchParams.get('minPrice');
-	const max = searchParams.get('maxPrice');
-	const discount = searchParams.get('discounted');
-	const catagory = searchParams.get('categoryId');
-
+const FiltersComponent: FC<FiltersProps> = ({ className, minPrice, maxPrice, categories }) => {
 	const [opened, setOpened] = useState<boolean>(false);
 	const isMaxLg = useBreakpoint('max', 'lg');
 	const tabIndex = useMemo(() => isMaxLg ? -1 : 0, [isMaxLg]);
 
 	const shouldReduceMotion = useReducedMotion();
-
-
-	if (!isMinMaxValuesValid({ defaultMin: minPrice, defaultMax: maxPrice, min, max })) {
-		notFound();
-	}
-
-	if (discount && !['true', 'false'].includes(discount)) {
-		notFound();
-	}
-
-	if (catagory && !categories.map(({ id }) => id.toString()).includes(catagory)) {
-		notFound();
-	}
+	const { clearFilters, isDirty } = useFilters();
 
 	return (
 		<div className={cn(styles.filters, className)}>
@@ -72,7 +53,7 @@ export const Filters: FC<FiltersProps> = ({ className, minPrice, maxPrice, categ
 					/>
 					<CategorySelect
 						className={styles.category}
-						options={categories}
+						options={[{ id: 0, name: 'Все категории' }, ...categories]}
 						mainTabIndex={tabIndex}
 					/>
 					<PriceRange
@@ -85,8 +66,12 @@ export const Filters: FC<FiltersProps> = ({ className, minPrice, maxPrice, categ
 						className={styles.discount}
 						mainTabIndex={tabIndex}
 					/>
+
+					{isDirty && <button className={styles.clear} onClick={clearFilters}>Очистить фильтры</button>}
 				</div>
 			</motion.aside>
 		</div>
 	);
 }
+
+export const Filters = memo(FiltersComponent);

@@ -1,35 +1,27 @@
 'use client';
 import cn from 'classnames';
-import { FC, useCallback, useEffect, useMemo, useState } from 'react';
+import { FC, useCallback, useEffect, useState } from 'react';
 import { PriceRangeProps } from './types';
-import { useQueryState } from 'nuqs';
 import { Range, getTrackBackground } from "react-range";
-import { debounce } from 'lodash';
 import styles from './PriceRange.module.scss';
+import { useFilters } from '@/lib/hooks/useFilters';
 
 export const PriceRange: FC<PriceRangeProps> = ({ className, min, max, mainTabIndex = 0, ...props }) => {
 	const [firstRender, setFirstRender] = useState(true);
-	const [minQuery, setMinQuery] = useQueryState('minPrice');
-	const [maxQuery, setMaxQuery] = useQueryState('maxPrice');
-	const isMinQuery = minQuery !== null && !Number.isNaN(Number(minQuery));
-	const isMaxQuery = maxQuery !== null && !Number.isNaN(Number(maxQuery));
-	const minValue = isMinQuery ? Math.min(Math.max(Number(minQuery), min), max) : min;
-	const maxValue = isMaxQuery ? Math.max(Math.min(Number(maxQuery), max), min) : max;
+	const { filterQueries, setFilterQueries } = useFilters();
+	const { priceMin, priceMax } = filterQueries;
+	const isMinQuery = priceMin !== null && !Number.isNaN(Number(priceMin));
+	const isMaxQuery = priceMax !== null && !Number.isNaN(Number(priceMax));
+	const minValue = isMinQuery ? Math.min(Math.max(Number(priceMin), min), max) : min;
+	const maxValue = isMaxQuery ? Math.max(Math.min(Number(priceMax), max), min) : max;
 	const [values, setValues] = useState<number[]>([
 		minValue > maxValue ? min : minValue,
 		maxValue < minValue ? max : maxValue
 	]);
 
 	const setQueryParams = useCallback((values: number[]) => {
-		setMinQuery(values[0].toString());
-		setMaxQuery(values[1].toString());
-		// eslint-disable-next-line react-hooks/exhaustive-deps
-	}, []);
-
-	const setQueryParamsDebounced = useMemo(() => {
-		return debounce((values: number[]) => setQueryParams(values), 500);
-	}, [setQueryParams]);
-
+		setFilterQueries({ priceMin: values[0], priceMax: values[1] });
+	}, [setFilterQueries]);
 	const onChange = useCallback((values: number[]) => setValues(values), []);
 
 	useEffect(() => {
@@ -39,10 +31,6 @@ export const PriceRange: FC<PriceRangeProps> = ({ className, min, max, mainTabIn
 		// eslint-disable-next-line react-hooks/exhaustive-deps
 	}, [])
 
-	if (!firstRender && (values[0] !== minValue || values[1] !== maxValue)) {
-		setQueryParamsDebounced(values);
-	}
-
 	return (
 		<div className={cn(styles.wrapper, className)} {...props}>
 			<Range
@@ -51,6 +39,7 @@ export const PriceRange: FC<PriceRangeProps> = ({ className, min, max, mainTabIn
 				max={max}
 				values={values}
 				onChange={onChange}
+				onFinalChange={setQueryParams}
 				renderTrack={({ props, children }) => (
 					<div
 						{...props}

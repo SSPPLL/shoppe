@@ -1,25 +1,26 @@
 'use client';
 import cn from 'classnames';
-import { FC, KeyboardEvent, ChangeEvent, FormEvent, useCallback, useState } from 'react';
+import { FC, KeyboardEvent, ChangeEvent, FormEvent, useCallback, useState, useEffect } from 'react';
 import { SearchProps } from './types';
 import styles from './Search.module.scss';
 import { Input } from '@/components/ui';
 import { MagnifierIcon } from '@/components/icon';
-import { useQueryState } from 'nuqs';
+import { useFilters } from '@/lib/hooks/useFilters';
 
 let isInputChanged = false;
 
 export const Search: FC<SearchProps> = ({ className, mainTabIndex = 0, ...props }) => {
-	const [searchValue, setSearchValue] = useQueryState('search');
-	const [inputValue, setInputValue] = useState<string>(searchValue || '');
+	const { filterQueries, setFilterQueries } = useFilters();
+	const { name } = filterQueries;
+	const [inputValue, setInputValue] = useState<string>(name || '');
 	const setValueToQuery = useCallback(() => {
 		if (!isInputChanged) {
 			return;
 		}
 
 		isInputChanged = false;
-		setSearchValue(inputValue)
-	}, [inputValue, setSearchValue]);
+		setFilterQueries({ name: inputValue === '' ? null : inputValue.trim() });
+	}, [inputValue, setFilterQueries]);
 
 	const onKeyDown = useCallback((event: KeyboardEvent<HTMLInputElement>) => {
 		if (event.key === 'Enter') {
@@ -39,13 +40,17 @@ export const Search: FC<SearchProps> = ({ className, mainTabIndex = 0, ...props 
 		setValueToQuery();
 	}, [setValueToQuery]);
 
+	useEffect(() => {
+		setInputValue(name || '');
+	}, [name])
+
 	return (
 		<form className={cn(styles.search, className)} {...props} onSubmit={onSubmit} role='search'>
 			<Input
 				className={styles.label}
 				inputClassName={styles.input}
 				placeholder='Поиск...'
-				name='search'
+				name='name'
 				type='search'
 				aria-label='Поиск'
 				value={inputValue}
