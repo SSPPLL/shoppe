@@ -1,6 +1,6 @@
 'use client';
 import { ProductCardProps } from './types';
-import { FC } from 'react';
+import { FC, memo } from 'react';
 import Image from 'next/image';
 import styles from './ProductCard.module.scss';
 import cn from 'classnames';
@@ -8,7 +8,7 @@ import { CartIcon, EyeIcon, HeartIcon } from '@/components/icon';
 import Link from 'next/link';
 import { useReducedMotion } from 'framer-motion';
 
-export const ProductCard: FC<ProductCardProps> = ({
+const ProductCardComponent: FC<ProductCardProps> = ({
 	className,
 	name,
 	nameAs = 'h2',
@@ -94,3 +94,5 @@ export const ProductCard: FC<ProductCardProps> = ({
 		</li>
 	)
 };
+
+export const ProductCard = memo(ProductCardComponent);
