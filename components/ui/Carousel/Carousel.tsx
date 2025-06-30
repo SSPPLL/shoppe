@@ -71,6 +71,7 @@ export const Carousel: FC<CarouselProps> = ({
 							[styles.active]: index === selectedIndex,
 							[activeDotClassName]: index === selectedIndex
 						})}
+						aria-label={`Переход к слайду ${index + 1}`}
 					/>
 				))}
 			</div>}
