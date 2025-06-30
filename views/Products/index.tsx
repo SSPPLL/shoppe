@@ -1,5 +1,5 @@
 'use client';
-import { FC, useEffect, useRef, useState, useTransition } from 'react';
+import { FC, useEffect, useMemo, useRef, useState, useTransition } from 'react';
 import { ProductsPageComponentProps } from './types';
 import { notFound, usePathname, useRouter, useSearchParams } from 'next/navigation';
 import { Filters } from './widgets';
@@ -50,7 +50,7 @@ export const ProductsPageComponent: FC<ProductsPageComponentProps> = ({ page, pr
 	const [isLoading, setIsLoading] = useState<boolean>(false);
 	const { filterQueries } = useFilters();
 	const { priceMin, priceMax, categoryId } = filterQueries;
-	const [totalPages, setTotalPages] = useState<number>(products ? getTotalPages(products.totalProducts) : 1);
+	const totalPages = useMemo(() => getTotalPages(products?.totalProducts || 0), [products]);
 
 	useEffect(() => {
 		if (prevSearchParamsRef.current !== searchParams.toString()) {
@@ -67,15 +67,7 @@ export const ProductsPageComponent: FC<ProductsPageComponentProps> = ({ page, pr
 		}
 	}, [pathname, router, searchParams]);
 
-	useEffect(() => {
-		if (products) {
-			setTotalPages(getTotalPages(products.totalProducts));
-		}
-	}, [products]);
-
-	useEffect(() => {
-		setIsLoading(false);
-	}, [pathname])
+	useEffect(() => setIsLoading(false), [pathname])
 
 	useEffect(() => {
 		if (!isMaxLg && (isPending || isLoading)) {
