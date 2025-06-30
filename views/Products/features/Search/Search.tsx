@@ -1,6 +1,6 @@
 'use client';
 import cn from 'classnames';
-import { FC, KeyboardEvent, ChangeEvent, FormEvent, useCallback, useState, useEffect } from 'react';
+import { FC, KeyboardEvent, ChangeEvent, FormEvent, useCallback, useState, useEffect, ReactElement } from 'react';
 import { SearchProps } from './types';
 import styles from './Search.module.scss';
 import { Input } from '@/components/ui';
@@ -9,7 +9,7 @@ import { useFilters } from '@/lib/hooks/useFilters';
 
 let isInputChanged = false;
 
-export const Search: FC<SearchProps> = ({ className, mainTabIndex = 0, ...props }) => {
+export const Search: FC<SearchProps> = ({ className, mainTabIndex = 0, ...props }): ReactElement => {
 	const { filterQueries, setFilterQueries } = useFilters();
 	const { name } = filterQueries;
 	const [inputValue, setInputValue] = useState<string>(name || '');

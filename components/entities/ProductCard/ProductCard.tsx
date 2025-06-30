@@ -1,6 +1,6 @@
 'use client';
 import { ProductCardProps } from './types';
-import { FC, memo } from 'react';
+import { FC, memo, ReactElement } from 'react';
 import Image from 'next/image';
 import styles from './ProductCard.module.scss';
 import cn from 'classnames';
@@ -21,7 +21,7 @@ const ProductCardComponent: FC<ProductCardProps> = ({
 	href,
 	setAddedToCart,
 	...props
-}) => {
+}): ReactElement => {
 	const TitleTag = nameAs;
 	const shouldReduceMotion = useReducedMotion();
 

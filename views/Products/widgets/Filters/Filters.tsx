@@ -1,6 +1,6 @@
 'use client';
 import FiltersIcon from './filters.svg'
-import { FC, memo, useMemo, useState } from 'react';
+import { FC, memo, ReactElement, useMemo, useState } from 'react';
 import { FiltersProps } from './types';
 import { CategorySelect, DiscountSwitch, PriceRange, Search } from '../../features';
 import { useBreakpoint } from '@/lib/hooks/useBreakpoint';
@@ -9,7 +9,7 @@ import { useFilters } from '@/lib/hooks/useFilters';
 import styles from './Filters.module.scss';
 import cn from 'classnames';
 
-const FiltersComponent: FC<FiltersProps> = ({ className, minPrice, maxPrice, categories }) => {
+const FiltersComponent: FC<FiltersProps> = ({ className, minPrice, maxPrice, categories }): ReactElement => {
 	const [opened, setOpened] = useState<boolean>(false);
 	const isMaxLg = useBreakpoint('max', 'lg');
 	const tabIndex = useMemo(() => isMaxLg ? -1 : 0, [isMaxLg]);

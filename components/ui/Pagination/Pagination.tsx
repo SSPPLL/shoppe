@@ -1,6 +1,6 @@
 'use client';
 import cn from 'classnames';
-import { FC, memo, useCallback } from 'react';
+import { FC, memo, ReactElement, useCallback } from 'react';
 import { PaginationProps } from './types';
 import Link from 'next/link';
 import ArrowIcon from './arrow.svg';
@@ -14,7 +14,7 @@ const PaginationComponent: FC<PaginationProps> = ({
 	isLoading,
 	setIsLoading,
 	...props
-}) => {
+}): ReactElement => {
 	const paginationTemplate = usePaginationTemplate(totalPages, pagesToShow);
 	const onClick = useCallback(() => {
 		if (!isLoading && setIsLoading) {
@@ -22,7 +22,7 @@ const PaginationComponent: FC<PaginationProps> = ({
 		}
 	}, [isLoading, setIsLoading]);
 
-	if (!paginationTemplate.length) return null;
+	if (!paginationTemplate.length) return <></>;
 
 	return (
 		<nav className={cn(styles.pagination, className)} {...props} role='navigation'>

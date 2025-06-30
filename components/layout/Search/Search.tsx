@@ -1,6 +1,6 @@
 'use client';
 import styles from './Search.module.scss';
-import { FormEvent, useCallback, useEffect, useRef } from 'react';
+import { FormEvent, ReactElement, useCallback, useEffect, useRef } from 'react';
 import { SearchProps } from './types';
 import cn from 'classnames';
 import { ROUTES } from '@/config/routes';
@@ -14,7 +14,7 @@ export const Search = motion.create(({
 	isOpened,
 	className,
 	...props
-}: SearchProps) => {
+}: SearchProps): ReactElement => {
 	const inputRef = useRef<HTMLInputElement>(null);
 	useEffect(() => {
 		if (isOpened) {

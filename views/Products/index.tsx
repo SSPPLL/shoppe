@@ -1,7 +1,6 @@
 'use client';
 import { FC, useEffect, useRef, useState, useTransition } from 'react';
 import { ProductsPageComponentProps } from './types';
-import { isPageNumberValid } from '@/lib/utils/is-page-number-valid';
 import { notFound, usePathname, useRouter, useSearchParams } from 'next/navigation';
 import { Filters } from './widgets';
 import { Pagination } from '@/components/ui';
@@ -11,6 +10,14 @@ import { ProductsGrid } from '@/components/widgets';
 import styles from './page.module.scss';
 import { ROUTES } from '@/config/routes';
 import { useBreakpoint } from '@/lib/hooks/useBreakpoint';
+
+export function isPageNumberValid(currentPage: unknown, totalPages: number): boolean {
+	const parsed = Number(currentPage);
+
+	if (Number.isNaN(parsed) || parsed < 1 || parsed > totalPages) return false;
+
+	return true;
+}
 
 interface IMinMaxValues {
 	minDefault: number

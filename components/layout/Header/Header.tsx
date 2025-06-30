@@ -1,5 +1,5 @@
 'use client';
-import { FC, Fragment, RefObject, useCallback, useEffect, useRef, useState } from 'react';
+import { FC, Fragment, ReactElement, RefObject, useCallback, useEffect, useRef, useState } from 'react';
 import { HeaderProps } from './types';
 import cn from 'classnames';
 import Link from 'next/link';
@@ -32,7 +32,7 @@ const toggleVariants = {
 	}
 };
 
-export const Header: FC<HeaderProps> = ({ className, ...props }) => {
+export const Header: FC<HeaderProps> = ({ className, ...props }): ReactElement => {
 	const pathname = usePathname();
 	const isMaxLg = useBreakpoint('max', 'lg');
 	const searchWrapperRef = useRef<HTMLDivElement>(null);

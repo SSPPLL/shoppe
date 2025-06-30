@@ -1,12 +1,12 @@
 'use client';
 import cn from 'classnames';
-import { FC, ChangeEvent, useCallback } from 'react';
+import { FC, ChangeEvent, useCallback, ReactElement } from 'react';
 import { DiscountSwitchProps } from './types';
 import styles from './DiscountSwitch.module.scss';
 import { Switch } from '@/components/ui';
 import { useFilters } from '@/lib/hooks/useFilters';
 
-export const DiscountSwitch: FC<DiscountSwitchProps> = ({ className, mainTabIndex = 0, ...props }) => {
+export const DiscountSwitch: FC<DiscountSwitchProps> = ({ className, mainTabIndex = 0, ...props }): ReactElement => {
 	const { filterQueries, setFilterQueries } = useFilters();
 	const { discounted } = filterQueries;
 

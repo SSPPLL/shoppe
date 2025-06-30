@@ -1,12 +1,12 @@
 import styles from './Cart.module.scss';
-import { FC } from 'react';
+import { FC, ReactElement } from 'react';
 import { CartProps } from './types';
 import cn from 'classnames';
 import { Counter } from '../Counter/Counter';
 import { CartIcon } from '../../icon';
 import { declineWordByNumber } from '@/lib/utils/decline-word-by-number';
 
-export const Cart: FC<CartProps> = ({ className, count, ...props }) => {
+export const Cart: FC<CartProps> = ({ className, count, ...props }): ReactElement => {
 	return (
 		<span className={cn(styles.cart, className)} {...props}>
 			{count && <span className='visually-hidden'>

@@ -1,10 +1,10 @@
 "use client";
 import { usePathname } from "next/navigation";
-import { FC, ReactNode, useEffect } from "react";
+import { FC, ReactElement, useEffect } from "react";
 import ym, { YMInitializer } from "react-yandex-metrika";
 import { YandexMetrikaProps } from './types';
 
-export const YandexMetrika: FC<YandexMetrikaProps> = ({ counterId }): ReactNode => {
+export const YandexMetrika: FC<YandexMetrikaProps> = ({ counterId }): ReactElement => {
 	const pathname = usePathname();
 
 	useEffect(() => {

@@ -1,12 +1,12 @@
 'use client';
 import cn from 'classnames';
-import { FC, useCallback, useEffect, useState } from 'react';
+import { FC, ReactElement, useCallback, useEffect, useState } from 'react';
 import { PriceRangeProps } from './types';
 import { Range, getTrackBackground } from "react-range";
 import styles from './PriceRange.module.scss';
 import { useFilters } from '@/lib/hooks/useFilters';
 
-export const PriceRange: FC<PriceRangeProps> = ({ className, min, max, mainTabIndex = 0, ...props }) => {
+export const PriceRange: FC<PriceRangeProps> = ({ className, min, max, mainTabIndex = 0, ...props }): ReactElement => {
 	const [firstRender, setFirstRender] = useState(true);
 	const { filterQueries, setFilterQueries } = useFilters();
 	const { priceMin, priceMax } = filterQueries;

@@ -5,9 +5,9 @@
   grid-template-columns: repeat(auto-fill, minmax(240px, 1fr));
   gap: 70px 24px;
 
-  @include mixins.mq($min: xl) {
+  @include mixins.mq($min: lg) {
     &.lg {
-      grid-template-columns: repeat(auto-fill, minmax(320px, 1fr));
+      grid-template-columns: repeat(auto-fill, minmax(280px, 1fr));
       gap: 86px 54px;
     }
   }

@@ -1,5 +1,5 @@
 'use client';
-import { FC, useCallback, useEffect } from 'react';
+import { FC, ReactElement, useCallback, useEffect } from 'react';
 import { ToastsProps } from './types';
 import cn from 'classnames';
 import styles from './Toasts.module.scss';
@@ -10,7 +10,7 @@ import { Alert } from '@/components/ui';
 const timeoutMap = new Map();
 const AlertMotion = motion.create(Alert);
 
-export const Toasts: FC<ToastsProps> = ({ className, ...props }) => {
+export const Toasts: FC<ToastsProps> = ({ className, ...props }): ReactElement => {
 	const toasts = useToasts();
 	const onClick = useCallback((id: number) => {
 		clearTimeout(timeoutMap.get(id));
@@ -27,7 +27,7 @@ export const Toasts: FC<ToastsProps> = ({ className, ...props }) => {
 		}
 	}, []);
 
-	if (!toasts.length) return null;
+	if (!toasts.length) return <></>;
 
 	const last = toasts[toasts.length - 1];
 
