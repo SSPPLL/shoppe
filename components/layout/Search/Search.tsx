@@ -16,6 +16,7 @@ export const Search = motion.create(({
 	...props
 }: SearchProps): ReactElement => {
 	const inputRef = useRef<HTMLInputElement>(null);
+
 	useEffect(() => {
 		if (isOpened) {
 			inputRef.current?.focus();

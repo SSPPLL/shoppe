@@ -4,7 +4,7 @@ import { useState, useEffect } from 'react';
 
 export const useBreakpoint = (type: 'min' | 'max', breakpoint: keyof typeof BREAKPOINTS) => {
 	const query = `(${type}-width: ${BREAKPOINTS[breakpoint] + (type === 'min' ? 1 : 0)}px)`;
-	const [matches, setMatches] = useState(false);
+	const [matches, setMatches] = useState<boolean>(false);
 
 	useEffect(() => {
 		const media = window.matchMedia(query);

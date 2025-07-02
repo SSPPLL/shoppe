@@ -1,7 +1,7 @@
 import { FiltersSearchParams } from '@/model/filters';
 import { useQueryStates } from 'nuqs';
 import { productsFiltersSearchParams } from '../loaders/productsFilters';
-import { useLayoutEffect, useState } from 'react';
+import { useCallback, useLayoutEffect, useState } from 'react';
 
 export interface IFilters {
 	filterQueries: FiltersSearchParams,
@@ -11,23 +11,25 @@ export interface IFilters {
 }
 
 export const useFilters = (): IFilters => {
-	const [isDirty, setIsDirty] = useState(false);
+	const [isDirty, setIsDirty] = useState<boolean>(false);
 	const [filterQueries, setFilterQueries] = useQueryStates(productsFiltersSearchParams);
 
-	const clearFilters = () => setFilterQueries(null)
+	const clearFilters = useCallback(() => setFilterQueries(null), [setFilterQueries]);
 
 	useLayoutEffect(() => {
-		if (filterQueries.categoryId === 0) {
-			filterQueries.categoryId = null;
+		const prevFilterQueries = { ...filterQueries };
+
+		if (prevFilterQueries.categoryId === 0) {
+			prevFilterQueries.categoryId = null;
 			setFilterQueries({ categoryId: null })
 		}
 
-		if (filterQueries.discounted === false) {
-			filterQueries.discounted = null;
+		if (prevFilterQueries.discounted === false) {
+			prevFilterQueries.discounted = null;
 			setFilterQueries({ discounted: null })
 		}
 
-		setIsDirty(Object.values(filterQueries).some((value) => value !== null));
+		setIsDirty(Object.values(prevFilterQueries).some((value) => value !== null));
 	}, [filterQueries, setFilterQueries]);
 
 	return {

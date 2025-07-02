@@ -17,7 +17,7 @@ export const usePaginationTemplate = (totalPages: number, pagesToShow = 3): IPag
 
 	return useMemo(() => {
 		const template = new Set();
-		const linkWithoutPage = pathname.split('/page')[0];
+		const linkWithoutPage = pathname.split('/page/')[0];
 		const searchParamsString = searchParams.toString();
 		const getLink = (page: number) => {
 			const paramsString = searchParamsString.length ? `?${searchParamsString}` : '';

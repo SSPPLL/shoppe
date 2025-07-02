@@ -1,5 +1,5 @@
 'use client';
-import { FC, Fragment, ReactElement, RefObject, useCallback, useEffect, useRef, useState } from 'react';
+import { FC, Fragment, ReactElement, useCallback, useEffect, useRef, useState } from 'react';
 import { HeaderProps } from './types';
 import cn from 'classnames';
 import Link from 'next/link';
@@ -90,7 +90,7 @@ export const Header: FC<HeaderProps> = ({ className, ...props }): ReactElement =
 
 	useEffect(() => updateIndicator(), [updateIndicator]);
 
-	const onBurgerClick = useCallback(async () => {
+	const onBurgerClick = useCallback(() => {
 		setBurger(!burger);
 	}, [burger]);
 
@@ -98,7 +98,7 @@ export const Header: FC<HeaderProps> = ({ className, ...props }): ReactElement =
 		setSearch(true);
 	}, []);
 
-	useClickOutside(searchWrapperRef as RefObject<HTMLElement>, async () => {
+	useClickOutside(searchWrapperRef, () => {
 		setSearch(false);
 	}, search)
 

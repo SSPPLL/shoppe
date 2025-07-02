@@ -1,5 +1,5 @@
+import { useParams } from 'next/navigation';
 import { useMemo } from 'react';
-import { useCurrentPage } from './useCurrentPage';
 
 export interface IPaginationInfo {
 	currentPage: number,
@@ -9,10 +9,9 @@ export interface IPaginationInfo {
 }
 
 export const usePaginationInfo = (totalPages: number, pagesToShow = 3, borderOffset = 0): IPaginationInfo => {
-	const currentPage = useCurrentPage();
-	const minMaxPage = useMemo<number>(() => {
-		return Math.min(totalPages, Math.max(1, currentPage));
-	}, [currentPage, totalPages]);
+	const { page } = useParams();
+	const currentPage = Number(page || '1');
+	const minMaxPage = Math.min(totalPages, Math.max(1, currentPage));
 	const { startPage, endPage } = useMemo<{ startPage: number, endPage: number }>(() => {
 		const half = Math.floor(pagesToShow / 2);
 		const startPage = minMaxPage - half;
