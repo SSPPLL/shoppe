@@ -1,4 +1,4 @@
-import { FC } from 'react';
+import { FC, memo, ReactElement } from 'react';
 import styles from './page.module.scss';
 import { ProductsGrid } from '@/components/widgets';
 import { getProducts } from '@/services/products';
@@ -6,7 +6,7 @@ import Link from 'next/link';
 import { ROUTES } from '@/config/routes';
 import { Banner } from './ui';
 
-export const HomePageComponent: FC = async () => {
+export const HomePageComponent: FC = memo(async function Component(): Promise<ReactElement> {
 	const products = await getProducts({
 		limit: 6,
 		offset: 0
@@ -28,4 +28,4 @@ export const HomePageComponent: FC = async () => {
 			{products && <ProductsGrid products={products.products} size='lg' nameAs='h3' />}
 		</main>
 	);
-};
+});

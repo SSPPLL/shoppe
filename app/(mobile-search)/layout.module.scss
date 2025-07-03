@@ -1,0 +1,9 @@
+@use "@/styles/mixins";
+
+.search-mobile {
+  margin-bottom: 15px;
+
+  @include mixins.mq($min: md) {
+    display: none;
+  }
+}

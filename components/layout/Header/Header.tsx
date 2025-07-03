@@ -16,6 +16,7 @@ import { RemoveScroll } from 'react-remove-scroll';
 import { AnimatePresence, motion, useReducedMotion } from 'framer-motion';
 import { useBreakpoint } from '@/lib/hooks/useBreakpoint';
 import styles from './Header.module.scss';
+import { setSearchValue, useSearchStore } from '@/store/search';
 
 const navLinks = [
 	{ href: ROUTES.HOME, label: 'Главная', mobile: true },
@@ -40,7 +41,7 @@ export const Header: FC<HeaderProps> = ({ className, ...props }): ReactElement =
 	const linkRefs = useRef(new Map<HTMLAnchorElement, string>());
 	const [burger, setBurger] = useState<boolean>(false);
 	const [search, setSearch] = useState<boolean>(false);
-	const [searchValue, setSearchValue] = useState<string>('');
+	const searchValue = useSearchStore((state) => state.value);
 	const [indicatorStyles, setIndicatorStyles] = useState<{ [key: string]: string }>({});
 	const shouldReduceMotion = useReducedMotion();
 
@@ -242,12 +243,6 @@ export const Header: FC<HeaderProps> = ({ className, ...props }): ReactElement =
 						onClick={onBurgerClick}
 					/>
 				</nav>
-				<Search
-					className={cn(styles['search-mobile'])}
-					disableTabIndex={burger}
-					setValue={setSearchValue}
-					value={searchValue}
-				/>
 			</header>
 			<AnimatePresence>
 				{burger && <RemoveScroll>

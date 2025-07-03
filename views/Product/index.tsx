@@ -1,9 +1,9 @@
-import { FC } from 'react';
+import { FC, ReactElement } from 'react';
 import styles from './page.module.scss';
 import { ProductPageComponentProps } from './types';
 import { Rating } from '@/components/ui';
 
-export const ProductPageComponent: FC<ProductPageComponentProps> = ({ sku }) => {
+export const ProductPageComponent: FC<ProductPageComponentProps> = ({ sku }): ReactElement => {
 	return (
 		<main className={styles.wrapper}>
 			<div className={styles.wrapper}>

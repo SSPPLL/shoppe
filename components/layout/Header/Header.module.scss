@@ -107,14 +107,6 @@
 
   width: 100%;
 
-  &-mobile {
-    margin-top: 15px;
-
-    @include mixins.mq($min: md) {
-      display: none;
-    }
-  }
-
   &-wrapper {
     position: relative;
     z-index: 1;

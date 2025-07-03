@@ -1,5 +1,5 @@
 'use client';
-import { FC, useEffect, useMemo, useRef, useState, useTransition } from 'react';
+import { FC, memo, ReactElement, useEffect, useMemo, useRef, useState, useTransition } from 'react';
 import { ProductsPageComponentProps } from './types';
 import { notFound, usePathname, useRouter, useSearchParams } from 'next/navigation';
 import { Filters } from './widgets';
@@ -39,7 +39,11 @@ const isMinMaxValuesValid = ({ minDefault, maxDefault, min, max }: IMinMaxValues
 
 const getTotalPages = (totalProducts: number): number => Math.ceil(totalProducts / PRODUCTS_PER_PAGE);
 
-export const ProductsPageComponent: FC<ProductsPageComponentProps> = ({ page, products, filters }) => {
+export const ProductsPageComponent: FC<ProductsPageComponentProps> = memo(function Component({
+	page,
+	products,
+	filters
+}): ReactElement {
 	const router = useRouter();
 	const pathname = usePathname();
 	const searchParams = useSearchParams();
@@ -117,4 +121,4 @@ export const ProductsPageComponent: FC<ProductsPageComponentProps> = ({ page, pr
 			</main>
 		</div>
 	);
-};
+});
