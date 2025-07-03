@@ -1,0 +1,40 @@
+@use "@/styles/mixins";
+
+.filled {
+  svg {
+    fill: var(--c-primary);
+  }
+}
+
+.star {
+  display: inline-block;
+
+  svg {
+    display: inline-block;
+    outline-color: var(--c-accent);
+    transition: fill 0.1s ease;
+
+    @include mixins.size(18px);
+  }
+
+  &:not(:last-child) {
+    padding-right: 10px;
+  }
+}
+
+.editable {
+  cursor: pointer;
+}
+
+.defaults {
+  display: flex;
+  flex-direction: column;
+  align-items: flex-end;
+}
+
+.error {
+  svg {
+    stroke: var(--red);
+    stroke-width: 1px;
+  }
+}

@@ -19,9 +19,11 @@
   transition: border-color 0.3s ease, background-color 0.3s ease,
     color 0.3s ease, opacity 0.3s ease;
 
-  @include mixins.mq(sm) {
-    height: 32px;
-    font-weight: 400;
+  &.adaptive {
+    @include mixins.mq(sm) {
+      height: 32px;
+      font-weight: 400;
+    }
   }
 }
 
@@ -33,8 +35,10 @@
   &-md {
     border-radius: 6px;
 
-    @include mixins.mq(sm) {
-      border-radius: 4px;
+    &.adaptive {
+      @include mixins.mq(sm) {
+        border-radius: 4px;
+      }
     }
   }
 }
@@ -88,9 +92,11 @@
     font-size: var(--fz-heading-4);
     line-height: var(--fz-heading-4);
 
-    @include mixins.mq(sm) {
-      font-size: var(--fz-body-small);
-      line-height: var(--fz-body-small);
+    &.adaptive {
+      @include mixins.mq(sm) {
+        font-size: var(--fz-body-small);
+        line-height: var(--fz-body-small);
+      }
     }
   }
 
@@ -98,9 +104,11 @@
     font-size: var(--fz-heading-5);
     line-height: var(--fz-heading-5);
 
-    @include mixins.mq(sm) {
-      font-size: var(--fz-body-small);
-      line-height: var(--fz-body-small);
+    &.adaptive {
+      @include mixins.mq(sm) {
+        font-size: var(--fz-body-small);
+        line-height: var(--fz-body-small);
+      }
     }
   }
 }

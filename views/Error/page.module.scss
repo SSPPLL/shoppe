@@ -1,0 +1,46 @@
+@use "@/styles/mixins";
+
+.wrapper {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+
+  margin-top: auto;
+  padding: 40px 0;
+
+  text-align: center;
+
+  @include mixins.mq(sm) {
+    margin-top: 0;
+  }
+}
+
+.title {
+  font-size: var(--fz-heading-1);
+  font-weight: 500;
+  line-height: var(--lh-heading-1);
+
+  @include mixins.mq(sm) {
+    font-size: 28px;
+    line-height: 43px;
+  }
+}
+
+.description {
+  max-width: 440px;
+  margin-top: 24px;
+
+  font-size: var(--fz-heading-3);
+  line-height: var(--lh-heading-3);
+  color: var(--c-grey-dark);
+
+  @include mixins.mq(sm) {
+    font-size: 18px;
+    line-height: 26px;
+  }
+}
+
+.button {
+  margin-top: 64px;
+  padding: 5px 18px;
+}

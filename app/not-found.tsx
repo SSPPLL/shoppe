@@ -1,7 +1,9 @@
+import { ErrorPageComponent } from '@/views/Error';
 import { ReactElement } from 'react';
 
 export default function NotFound(): ReactElement {
-	return (
-		<h1>Ошибка 404</h1>
-	)
+	return <ErrorPageComponent
+		title='404 ошибка'
+		description='Страница не найдена, попробуйте перейти на главную страницу'
+	/>
 }

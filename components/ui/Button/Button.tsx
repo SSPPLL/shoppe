@@ -12,6 +12,7 @@ export const Button = <T extends ButtonAllowedTags = 'button'>({
 	color = 'dark',
 	rounded = 'sm',
 	fontSize = 'sm',
+	adaptive = true,
 	...props
 }: ButtonProps<T>): ReactElement => {
 	const buttonClassName = cn(
@@ -20,6 +21,9 @@ export const Button = <T extends ButtonAllowedTags = 'button'>({
 		styles[appearance],
 		styles[`rounded-${rounded}`],
 		styles[`font-${fontSize}`],
+		{
+			[styles.adaptive]: adaptive
+		},
 		className
 	);
 

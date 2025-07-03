@@ -12,6 +12,7 @@ export type ButtonProps<T extends ButtonAllowedTags> = (T extends 'a' ? TLinkPro
 	appearance?: 'primary' | 'secondary',
 	rounded?: 'sm' | 'md',
 	fontSize?: 'sm' | 'md',
+	adaptive?: boolean,
 	className?: string,
 	children?: ReactNode
 };
