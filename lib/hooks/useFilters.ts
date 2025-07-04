@@ -1,7 +1,10 @@
 import { FiltersSearchParams } from '@/model/filters';
 import { useQueryStates } from 'nuqs';
-import { productsFiltersSearchParams } from '../loaders/productsFilters';
-import { useCallback, useLayoutEffect, useState } from 'react';
+import { filtersDefaults, getDirtyFilters, productsFiltersSearchParams } from '../loaders/productsFilters';
+import { useCallback, useEffect, useMemo, useRef, } from 'react';
+import { isEqual } from 'lodash';
+import { useSearchParams } from 'next/navigation';
+import { objectToQueryString } from '../utils/query-string';
 
 export interface IFilters {
 	filterQueries: FiltersSearchParams,
@@ -10,27 +13,20 @@ export interface IFilters {
 	isDirty: boolean
 }
 
-export const useFilters = (): IFilters => {
-	const [isDirty, setIsDirty] = useState<boolean>(false);
+export const useFilters = (handleChange?: (query: string) => void): IFilters => {
+	const searchParams = useSearchParams();
 	const [filterQueries, setFilterQueries] = useQueryStates(productsFiltersSearchParams);
-
+	const prevFilterQueries = useRef<FiltersSearchParams>(filterQueries);
 	const clearFilters = useCallback(() => setFilterQueries(null), [setFilterQueries]);
+	const isDirty = useMemo<boolean>(() => !isEqual(filterQueries, filtersDefaults), [filterQueries]);
 
-	useLayoutEffect(() => {
-		const prevFilterQueries = { ...filterQueries };
-
-		if (prevFilterQueries.categoryId === 0) {
-			prevFilterQueries.categoryId = null;
-			setFilterQueries({ categoryId: null })
+	useEffect(() => {
+		if (!isEqual(filterQueries, prevFilterQueries.current)) {
+			prevFilterQueries.current = filterQueries;
+			handleChange?.(objectToQueryString(getDirtyFilters(filterQueries)));
 		}
-
-		if (prevFilterQueries.discounted === false) {
-			prevFilterQueries.discounted = null;
-			setFilterQueries({ discounted: null })
-		}
-
-		setIsDirty(Object.values(prevFilterQueries).some((value) => value !== null));
-	}, [filterQueries, setFilterQueries]);
+		// eslint-disable-next-line react-hooks/exhaustive-deps
+	}, [searchParams])
 
 	return {
 		filterQueries,

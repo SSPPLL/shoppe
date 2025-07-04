@@ -1,6 +1,6 @@
 import { combineWithDefaultMetadata } from '@/config/metadata';
 import { loadProductsData } from '@/lib/api/loadProductsData';
-import { loadProductsFiltersSearchParams } from '@/lib/loaders/productsFilters';
+import { getDirtyFilters, loadProductsFiltersSearchParams } from '@/lib/loaders/productsFilters';
 import { ProductsPageComponent } from '@/views';
 import { Metadata } from 'next';
 import { notFound } from 'next/navigation';
@@ -28,7 +28,7 @@ export default async function ProductsPaginationPage({ params, searchParams }: {
 	const { page } = await params;
 	const [filters, products] = await loadProductsData({
 		page: Number(page),
-		...loadProductsFiltersSearchParams(await searchParams)
+		...getDirtyFilters(loadProductsFiltersSearchParams(await searchParams))
 	})
 
 	if (!page) {

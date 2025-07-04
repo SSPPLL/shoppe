@@ -9,11 +9,10 @@ export interface GetProductsParams extends Partial<FiltersSearchParams> {
 }
 
 export const getProducts = async (params?: GetProductsParams): Promise<ProductsModel | null> => {
-	const queryString = params ? `?${objectToQueryString(params)}` : '';
-
-	const res = await fetch(API.PRODUCTS + queryString, {
+	const res = await fetch(API.PRODUCTS + (params ? `?${objectToQueryString(params)}` : ''), {
 		next: {
-			revalidate: 1000
+			revalidate: 1000,
+			tags: ['products']
 		}
 	})
 

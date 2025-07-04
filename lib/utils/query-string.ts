@@ -41,7 +41,7 @@ export function objectToQueryString<T extends object>(
 		if (!Object.prototype.hasOwnProperty.call(obj, key)) continue;
 
 		const value = obj[key];
-		if (value === undefined || value === null) continue;
+		if (value === undefined) continue;
 
 		const fullKey = prefix
 			? `${prefix}[${encodeURIComponent(key)}]`

@@ -1,7 +1,7 @@
 'use client';
-import { FC, memo, ReactElement, useEffect, useMemo, useRef, useState, useTransition } from 'react';
+import { FC, ReactElement, useEffect, useMemo, useRef, useState, useTransition } from 'react';
 import { ProductsPageComponentProps } from './types';
-import { notFound, usePathname, useRouter, useSearchParams } from 'next/navigation';
+import { notFound, usePathname, useRouter } from 'next/navigation';
 import { Filters } from './widgets';
 import { Pagination } from '@/components/ui';
 import { PRODUCTS_PER_PAGE } from '@/config/products';
@@ -39,37 +39,22 @@ const isMinMaxValuesValid = ({ minDefault, maxDefault, min, max }: IMinMaxValues
 
 const getTotalPages = (totalProducts: number): number => Math.ceil(totalProducts / PRODUCTS_PER_PAGE);
 
-export const ProductsPageComponent: FC<ProductsPageComponentProps> = memo(function Component({
+export const ProductsPageComponent: FC<ProductsPageComponentProps> = ({
 	page,
 	products,
 	filters
-}): ReactElement {
+}): ReactElement => {
 	const router = useRouter();
 	const pathname = usePathname();
-	const searchParams = useSearchParams();
-	const prevSearchParamsRef = useRef<string>(searchParams.toString());
 	const wrapperRef = useRef<HTMLDivElement>(null);
 	const isMaxLg = useBreakpoint('max', 'lg');
 	const [isPending, startTransition] = useTransition();
 	const [isLoading, setIsLoading] = useState<boolean>(false);
-	const { filterQueries } = useFilters();
+	const { filterQueries } = useFilters((query: string) => {
+		startTransition(() => router.replace(`${ROUTES.PRODUCTS}?${query}`));
+	});
 	const { priceMin, priceMax, categoryId } = filterQueries;
 	const totalPages = useMemo(() => getTotalPages(products?.totalProducts || 0), [products]);
-
-	useEffect(() => {
-		if (prevSearchParamsRef.current !== searchParams.toString()) {
-			startTransition(() => {
-				if (pathname.includes('/page/')) {
-					router.push(`${ROUTES.PRODUCTS}?${searchParams.toString()}`);
-
-					return;
-				}
-
-				router.refresh();
-			})
-			prevSearchParamsRef.current = searchParams.toString();
-		}
-	}, [pathname, router, searchParams]);
 
 	useEffect(() => setIsLoading(false), [pathname])
 
@@ -101,7 +86,10 @@ export const ProductsPageComponent: FC<ProductsPageComponentProps> = memo(functi
 	return (
 		<div id='products' className={styles.wrapper} ref={wrapperRef}>
 			<h1 className={styles.title}>Каталог товаров</h1>
-			{filters && <Filters className={styles.filters} {...filters} />}
+			{filters && <Filters
+				className={styles.filters}
+				{...filters}
+			/>}
 			<main className={styles.content}>
 				{(isLoading || isPending) && <div className={styles.loading}>Загрузка...</div>}
 				{!isLoading && !isPending && products && <ProductsGrid
@@ -121,4 +109,4 @@ export const ProductsPageComponent: FC<ProductsPageComponentProps> = memo(functi
 			</main>
 		</div>
 	);
-});
+};

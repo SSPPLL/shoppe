@@ -4,7 +4,7 @@ import { PRODUCTS_PER_PAGE } from '@/config/products'
 import { FiltersModel, FiltersSearchParams } from '@/model/filters'
 import { ProductsModel } from '@/model/products'
 
-export interface LoadProductsDataParams extends FiltersSearchParams {
+export interface LoadProductsDataParams extends Partial<FiltersSearchParams> {
 	page: number
 }
 

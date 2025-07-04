@@ -9,7 +9,12 @@ import { useFilters } from '@/lib/hooks/useFilters';
 import styles from './Filters.module.scss';
 import cn from 'classnames';
 
-const FiltersComponent: FC<FiltersProps> = ({ className, minPrice, maxPrice, categories }): ReactElement => {
+const FiltersComponent: FC<FiltersProps> = ({
+	className,
+	minPrice,
+	maxPrice,
+	categories
+}): ReactElement => {
 	const [opened, setOpened] = useState<boolean>(false);
 	const isMaxLg = useBreakpoint('max', 'lg');
 	const tabIndex = isMaxLg ? -1 : 0;
