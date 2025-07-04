@@ -1,6 +1,6 @@
 'use client';
 import styles from './Footer.module.scss';
-import { FC, useCallback, FormEvent, useRef } from 'react';
+import { FC, useCallback, FormEvent, useRef, ReactElement } from 'react';
 import { FooterProps } from './types';
 import cn from 'classnames';
 import { ROUTES } from '@/config/routes';
@@ -10,7 +10,7 @@ import FacebookIcon from './icons/facebook.svg';
 import InstagramIcon from './icons/instagram.svg';
 import LinkedinIcon from './icons/linkedin.svg';
 import TwitterIcon from './icons/twitter.svg';
-import { Input } from '@/components/ui';
+import { Input } from '@/components/ui/Input/Input';
 import { addToast } from '@/store/toasts';
 import { usePathname } from 'next/navigation';
 
@@ -27,7 +27,7 @@ const socials = [
 	{ href: '#', icon: TwitterIcon, label: 'Twitter' },
 ]
 
-export const Footer: FC<FooterProps> = ({ className, ...props }) => {
+export const Footer: FC<FooterProps> = ({ className, ...props }): ReactElement => {
 	const pathname = usePathname();
 	const inputRef = useRef<HTMLInputElement>(null);
 	const onSubmit = useCallback((event: FormEvent<HTMLFormElement>) => {

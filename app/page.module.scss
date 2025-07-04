@@ -1,9 +1,0 @@
-@use "@/styles/mixins";
-
-.title {
-  display: block;
-
-  @include mixins.mq(lg) {
-    display: none;
-  }
-}

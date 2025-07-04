@@ -1,0 +1,13 @@
+@use "@/styles/mixins";
+
+.wrapper {
+  display: grid;
+  grid-template-columns: auto 33px;
+  gap: 10px;
+  align-items: center;
+}
+
+.name {
+  font-size: var(--fz-heading-5);
+  line-height: var(--lh-heading-5);
+}

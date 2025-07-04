@@ -12,8 +12,14 @@
 		"stylelint": "stylelint \"**/*.(css|scss)\" --fix"
 	},
 	"dependencies": {
+		"@radix-ui/react-select": "^2.2.5",
 		"classnames": "^2.5.1",
 		"date-fns": "^4.1.0",
+		"embla-carousel": "^8.6.0",
+		"embla-carousel-autoplay": "^8.6.0",
+		"embla-carousel-class-names": "^8.6.0",
+		"embla-carousel-fade": "^8.6.0",
+		"embla-carousel-react": "^8.6.0",
 		"html-react-parser": "^5.2.5",
 		"lodash": "^4.17.21",
 		"maska": "^3.1.1",
@@ -23,6 +29,7 @@
 		"react": "^19.0.0",
 		"react-dom": "^19.0.0",
 		"react-hook-form": "^7.57.0",
+		"react-range": "^1.10.0",
 		"react-remove-scroll": "^2.7.1",
 		"react-yandex-metrika": "^2.6.0",
 		"zustand": "^5.0.5"

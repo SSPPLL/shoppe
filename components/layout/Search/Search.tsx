@@ -1,10 +1,10 @@
 'use client';
 import styles from './Search.module.scss';
-import { FormEvent, useCallback, useEffect, useRef } from 'react';
+import { FormEvent, ReactElement, useCallback, useEffect, useRef } from 'react';
 import { SearchProps } from './types';
 import cn from 'classnames';
 import { ROUTES } from '@/config/routes';
-import { MagnifierIcon } from '../Icon/Icon';
+import { MagnifierIcon } from '../../icon';
 import { motion } from 'framer-motion';
 
 export const Search = motion.create(({
@@ -14,8 +14,9 @@ export const Search = motion.create(({
 	isOpened,
 	className,
 	...props
-}: SearchProps) => {
+}: SearchProps): ReactElement => {
 	const inputRef = useRef<HTMLInputElement>(null);
+
 	useEffect(() => {
 		if (isOpened) {
 			inputRef.current?.focus();
@@ -44,7 +45,7 @@ export const Search = motion.create(({
 					className={styles.input}
 					type='search'
 					placeholder='Поиск'
-					name='q'
+					name='name'
 					required
 					ref={inputRef}
 					tabIndex={disableTabIndex ? -1 : 0}

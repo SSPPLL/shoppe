@@ -1,5 +1,5 @@
 'use client';
-import { FC, Fragment, RefObject, useCallback, useEffect, useRef, useState } from 'react';
+import { FC, Fragment, ReactElement, useCallback, useEffect, useRef, useState } from 'react';
 import { HeaderProps } from './types';
 import cn from 'classnames';
 import Link from 'next/link';
@@ -8,13 +8,13 @@ import { ROUTES } from '@/config/routes';
 import { usePathname } from 'next/navigation';
 import { Search } from '../Search/Search';
 import { Burger } from '../Burger/Burger';
-import { LogoutIcon, MagnifierIcon, UserIcon } from '../Icon/Icon';
+import { LogoutIcon, MagnifierIcon, UserIcon } from '../../icon';
 import { Cart } from '../Cart/Cart';
 import { Favorites } from '../Favorites/Favorites';
 import { useClickOutside } from '@/lib/hooks/useClickOutside';
 import { RemoveScroll } from 'react-remove-scroll';
 import { AnimatePresence, motion, useReducedMotion } from 'framer-motion';
-import { useMediaQuery } from '@/lib/hooks/useMediaQuery';
+import { useBreakpoint } from '@/lib/hooks/useBreakpoint';
 import styles from './Header.module.scss';
 
 const navLinks = [
@@ -32,9 +32,9 @@ const toggleVariants = {
 	}
 };
 
-export const Header: FC<HeaderProps> = ({ className, ...props }) => {
+export const Header: FC<HeaderProps> = ({ className, ...props }): ReactElement => {
 	const pathname = usePathname();
-	const isMaxLg = useMediaQuery('max', 'lg');
+	const isMaxLg = useBreakpoint('max', 'lg');
 	const searchWrapperRef = useRef<HTMLDivElement>(null);
 	const navRef = useRef<HTMLDivElement>(null);
 	const linkRefs = useRef(new Map<HTMLAnchorElement, string>());
@@ -90,7 +90,7 @@ export const Header: FC<HeaderProps> = ({ className, ...props }) => {
 
 	useEffect(() => updateIndicator(), [updateIndicator]);
 
-	const onBurgerClick = useCallback(async () => {
+	const onBurgerClick = useCallback(() => {
 		setBurger(!burger);
 	}, [burger]);
 
@@ -98,7 +98,7 @@ export const Header: FC<HeaderProps> = ({ className, ...props }) => {
 		setSearch(true);
 	}, []);
 
-	useClickOutside(searchWrapperRef as RefObject<HTMLElement>, async () => {
+	useClickOutside(searchWrapperRef, () => {
 		setSearch(false);
 	}, search)
 

@@ -1,0 +1,65 @@
+@use "@/styles/mixins";
+
+.trigger {
+  cursor: pointer;
+
+  position: relative;
+  z-index: 1;
+
+  display: block;
+
+  width: 100%;
+  height: 48px;
+  padding: 12px 15px;
+  padding-right: 40px;
+  border: 1px solid var(--c-grey);
+  border-radius: 4px;
+
+  font-family: vat(--font-family);
+  font-size: var(--fz-body-medium);
+  line-height: var(--lh-body-medium);
+  text-align: left;
+
+  appearance: none;
+  background: none;
+}
+
+.arrow {
+  position: absolute;
+  z-index: 2;
+  top: 50%;
+  right: 12px;
+  transform: translateY(-50%);
+}
+
+.content {
+  z-index: 10;
+
+  display: grid;
+  gap: 10px;
+
+  padding: 10px;
+  border: 1px solid var(--c-grey);
+  border-radius: 4px;
+
+  font-size: var(--fz-body-medium);
+  line-height: var(--lh-body-medium);
+
+  background: var(--c-white);
+  box-shadow: 0 4px 8px rgb(0 0 0 / 15%);
+}
+
+.item {
+  cursor: pointer;
+
+  padding: 5px;
+
+  font-family: vat(--font-family);
+  letter-spacing: normal;
+
+  outline: none;
+
+  @include mixins.hover {
+    background: var(--c-grey-light);
+  }
+}

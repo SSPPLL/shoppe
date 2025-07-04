@@ -3,7 +3,7 @@ import type { NextConfig } from "next";
 const nextConfig: NextConfig = {
 	reactStrictMode: true,
 	images: {
-		remotePatterns: [],
+		remotePatterns: [new URL('https://cdn-bucket.hb.ru-msk.vkcs.cloud/purple-images/**')],
 	},
 	webpack(config) {
 		config.module.rules.push({

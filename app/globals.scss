@@ -7,6 +7,7 @@
   --c-grey-light: #efefef;
   --c-grey: #d8d8d8;
   --c-accent: #a18a68;
+  --c-red: #d82700;
   --fz-heading-1: 33px;
   --fz-heading-2: 26px;
   --fz-heading-3: 20px;
@@ -70,15 +71,14 @@ a {
 .input {
   box-sizing: border-box;
   width: 100%;
-  padding: 0;
-  padding-bottom: 12px;
+  padding: var(--input-padding, 0 0 12px);
   border: none;
-  border-bottom: 1px solid var(--c-grey);
+  border-bottom: 1px solid var(--input-border-color, var(--c-grey));
   border-radius: 0;
 
   font-family: var(--font-family);
-  font-size: var(--fz-heading-5);
-  line-height: var(--lh-heading-5);
+  font-size: var(--input-font-size, var(--fz-heading-5));
+  line-height: var(--input-line-height, var(--lh-heading-5));
   color: var(--c-black);
 
   appearance: none;
@@ -88,9 +88,9 @@ a {
   transition: border-color 0.3s ease;
 
   @include mixins.mq(md) {
-    padding-bottom: 5px;
-    font-size: var(--fz-body-small);
-    line-height: var(--lh-body-small);
+    padding: var(--input-padding, 0 0 5px);
+    font-size: var(--input-font-size, var(--fz-body-small));
+    line-height: var(--input-line-height, var(--lh-body-small));
   }
 
   &::placeholder {

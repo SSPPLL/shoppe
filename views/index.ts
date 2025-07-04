@@ -1,0 +1,13 @@
+export { ProductsPageComponent } from './Products';
+export { ProductPageComponent } from './Product';
+export { OrderPageComponent } from './Order';
+export { AccountPageComponent } from './Account';
+export { FavoritesPageComponent } from './Favorites';
+export { AboutPageComponent } from './About';
+export { ContactsPageComponent } from './Contacts';
+export { DeliveryAndReturnPageComponent } from './DeliveryAndReturn';
+export { TermsOfPurchasePageComponent } from './TermsOfPurchase';
+export { ForgotPasswordPageComponent } from './ForgotPassword';
+export { ResetPasswordPageComponent } from './ResetPassword';
+export { LoginPageComponent } from './Login';
+export { RegisterPageComponent } from './Register';

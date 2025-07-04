@@ -1,10 +1,10 @@
 'use client';
 import styles from './Burger.module.scss';
-import { FC, useState } from 'react';
+import { FC, ReactElement, useState } from 'react';
 import { BurgerProps } from './types';
 import cn from 'classnames';
 
-export const Burger: FC<BurgerProps> = ({ className, isOpened, ...props }) => {
+export const Burger: FC<BurgerProps> = ({ className, isOpened, ...props }): ReactElement => {
 	const [burgerTrgiggered, setBurgerTriggered] = useState<boolean>(false);
 
 	if (isOpened && !burgerTrgiggered) {

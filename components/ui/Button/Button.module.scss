@@ -1,0 +1,106 @@
+@use "@/styles/mixins";
+
+.button {
+  cursor: pointer;
+
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+
+  height: 53px;
+  padding: 5px;
+  border: 1px solid;
+
+  font-weight: 700;
+
+  appearance: none;
+  background: none;
+
+  transition: border-color 0.3s ease, background-color 0.3s ease,
+    color 0.3s ease, opacity 0.3s ease;
+
+  @include mixins.mq(sm) {
+    height: 32px;
+    font-weight: 400;
+  }
+}
+
+.rounded {
+  &-sm {
+    border-radius: 4px;
+  }
+
+  &-md {
+    border-radius: 6px;
+
+    @include mixins.mq(sm) {
+      border-radius: 4px;
+    }
+  }
+}
+
+.primary {
+  &.dark {
+    border-color: var(--c-black);
+    color: var(--c-white);
+    background: var(--c-black);
+  }
+
+  &.light {
+    border-color: var(--c-white);
+    color: var(--c-black);
+    background: var(--c-white);
+  }
+
+  @include mixins.hover {
+    opacity: 0.8;
+  }
+}
+
+.secondary {
+  &.dark {
+    border-color: var(--c-black);
+    color: var(--c-black);
+
+    @include mixins.hover {
+      color: var(--c-white);
+      background: var(--c-black);
+    }
+  }
+
+  &.light {
+    border-color: var(--c-white);
+    color: var(--c-white);
+
+    @include mixins.hover {
+      color: var(--c-black);
+      background: var(--c-white);
+    }
+  }
+
+  @include mixins.hover {
+    opacity: 0.8;
+  }
+}
+
+.font {
+  &-md {
+    font-size: var(--fz-heading-4);
+    line-height: var(--fz-heading-4);
+
+    @include mixins.mq(sm) {
+      font-size: var(--fz-body-small);
+      line-height: var(--fz-body-small);
+    }
+  }
+
+  &-sm {
+    font-size: var(--fz-heading-5);
+    line-height: var(--fz-heading-5);
+
+    @include mixins.mq(sm) {
+      font-size: var(--fz-body-small);
+      line-height: var(--fz-body-small);
+    }
+  }
+}

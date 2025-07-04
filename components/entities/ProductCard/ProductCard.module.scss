@@ -1,0 +1,237 @@
+@use "@/styles/mixins";
+
+.main {
+  @include mixins.hover {
+    .image-wrapper {
+      &::after {
+        opacity: 1;
+      }
+
+      .actions {
+        visibility: visible;
+        opacity: 1;
+      }
+    }
+  }
+}
+
+.link {
+  position: absolute;
+  z-index: 3;
+  top: 0;
+  left: 0;
+
+  @include mixins.size(100%);
+}
+
+.image {
+  position: absolute;
+  z-index: 1;
+  top: 0;
+  left: 0;
+
+  object-fit: cover;
+  object-position: center;
+
+  @include mixins.size(100%);
+
+  &-wrapper {
+    position: relative;
+    z-index: 1;
+    overflow: hidden;
+    border-radius: 8px;
+
+    @include mixins.responsive-ratio(1, 1, true);
+
+    &::after {
+      @include mixins.pseudo;
+
+      pointer-events: none;
+
+      z-index: 2;
+      top: 0;
+      left: 0;
+
+      opacity: 0;
+      background: rgb(255 255 255 / 60%);
+
+      transition: opacity 0.3s ease;
+
+      @include mixins.size(100%);
+    }
+  }
+}
+
+.discount {
+  pointer-events: none;
+
+  position: absolute;
+  z-index: 4;
+  top: 16px;
+  left: 16px;
+
+  padding: 4px 8px;
+  border-radius: 4px;
+
+  font-size: var(--fz-body-small);
+  line-height: var(--lh-body-small);
+  color: var(--c-white);
+
+  background-color: var(--c-accent);
+
+  @include mixins.mq(sm) {
+    top: 4px;
+    left: 4px;
+  }
+}
+
+.actions {
+  pointer-events: none;
+
+  position: absolute;
+  z-index: 4;
+  top: 50%;
+  left: 50%;
+  transform: translate(-50%, -50%);
+
+  display: flex;
+  align-items: center;
+  justify-content: center;
+
+  visibility: hidden;
+  opacity: 0;
+
+  transition: opacity 0.3s ease, visibility 0.3s ease;
+
+  &-wrapper {
+    display: flex;
+    align-items: center;
+    transition: transform 0.3s ease;
+
+    &.liked {
+      transform: translateX(30px);
+
+      @include mixins.mq(sm) {
+        transform: translateX(21px);
+      }
+    }
+
+    &.no-transition {
+      transition: none;
+    }
+  }
+}
+
+.action {
+  pointer-events: all;
+  cursor: pointer;
+
+  margin: 0 15px;
+  padding: 0;
+  border: none;
+
+  appearance: none;
+  background: none;
+
+  @include mixins.mq(sm) {
+    margin: 0 6px;
+  }
+}
+
+.cart-button,
+.like-button {
+  svg {
+    width: 25px;
+    height: 25px;
+  }
+}
+
+.like-button {
+  transition: transform 0.3s ease, opacity 0.3s ease;
+
+  &.no-transition {
+    transition: none;
+  }
+
+  &.liked {
+    transform: scale(0);
+    opacity: 0;
+  }
+}
+
+.liked-button {
+  position: absolute;
+  z-index: 4;
+  top: 15px;
+  right: 15px;
+  transform: scale(2);
+
+  padding: 0;
+  border: none;
+
+  appearance: none;
+  visibility: hidden;
+  opacity: 0;
+  background: none;
+
+  transition: opacity 0.3s ease, visibility 0.3s ease, transform 0.3s ease;
+
+  svg {
+    @include mixins.size(25px);
+
+    cursor: pointer;
+    fill: var(--c-accent);
+    stroke-opacity: 0;
+  }
+
+  &.no-transition {
+    transition: none;
+  }
+
+  &.liked {
+    transform: scale(1);
+    visibility: visible;
+    opacity: 1;
+  }
+
+  @include mixins.mq(sm) {
+    top: 4px;
+    right: 4px;
+  }
+}
+
+.name {
+  margin-top: 24px;
+  margin-bottom: 16px;
+  font-size: var(--fz-heading-3);
+  line-height: var(--lh-heading-3);
+
+  @include mixins.mq(sm) {
+    margin-top: 6px;
+    margin-bottom: 4px;
+    font-size: var(--fz-body-medium);
+    line-height: var(--lh-body-medium);
+  }
+}
+
+.price,
+.old-price {
+  display: inline-block;
+  font-size: var(--fz-heading-4);
+  line-height: var(--lh-heading-4);
+
+  @include mixins.mq(sm) {
+    font-size: var(--fz-body-small);
+    line-height: var(--lh-body-small);
+  }
+}
+
+.price {
+  color: var(--c-accent);
+}
+
+.old-price {
+  margin-right: 10px;
+  color: var(--c-red);
+  text-decoration: line-through;
+}
