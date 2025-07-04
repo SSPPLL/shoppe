@@ -1,17 +1,18 @@
 import { FiltersSearchParams } from '@/model/filters'
 import { createLoader, parseAsString, parseAsInteger, parseAsBoolean } from 'nuqs/server'
+import { getObjectDifference } from '../utils/get-object-difference'
 
 const throttle = {
 	throttleMs: 500
 }
 
-export const filtersDefaults: FiltersSearchParams = {
+export const filtersDefaults = {
 	name: '',
 	priceMin: null,
 	priceMax: null,
 	categoryId: 0,
 	discounted: false
-}
+} as const
 
 export const productsFiltersSearchParams = {
 	name: parseAsString
@@ -36,16 +37,8 @@ export const productsFiltersSearchParams = {
 		})
 }
 
-export const getDirtyFilters = (filters: FiltersSearchParams): Partial<FiltersSearchParams> => {
-	const dirty: Partial<FiltersSearchParams> = {};
-
-	for (const [key, value] of Object.entries(filters)) {
-		if (value !== filtersDefaults[key as keyof FiltersSearchParams]) {
-			dirty[key as keyof FiltersSearchParams] = value;
-		}
-	}
-
-	return dirty
+export const getDirtyFilters = (filters: Record<string, unknown>): Partial<FiltersSearchParams> => {
+	return getObjectDifference(filtersDefaults, filters);
 }
 
 export const loadProductsFiltersSearchParams = createLoader(productsFiltersSearchParams)
