@@ -3,6 +3,7 @@ import { notFound } from 'next/navigation';
 import { combineWithDefaultMetadata } from '@/config/metadata';
 import { Metadata } from 'next';
 import { ProductPageComponent } from '@/views';
+import { loadProductData } from '@/lib/api/loadProductData';
 
 export interface PageParams {
 	sku: string
@@ -27,5 +28,11 @@ export default async function ProductPage({ params }: {
 		notFound();
 	}
 
-	return <ProductPageComponent sku={sku} />
+	const [category, product] = await loadProductData(sku);
+
+	if (!product || !category) {
+		notFound();
+	}
+
+	return <ProductPageComponent product={product} category={category} />
 }

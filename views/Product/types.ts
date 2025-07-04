@@ -1,3 +1,7 @@
+import { FilterCategory } from '@/model/filters';
+import { ProductModel } from '@/model/product';
+
 export interface ProductPageComponentProps {
-	sku?: string
+	product: ProductModel;
+	category: FilterCategory;
 }
